@@ -16,6 +16,7 @@ const auditRoutes = require('./routes/audit.routes');
 const securityRoutes = require('./routes/security.routes');
 const aiRoutes = require('./routes/ai.routes');
 const adminRoutes = require('./routes/admin.routes');
+const privacyideaRoutes = require('./routes/privacyidea.routes');
 
 const app = express();
 const PORT = process.env.PORT || 5000;
@@ -57,6 +58,7 @@ app.use('/api/audit', auditRoutes);
 app.use('/api/security', securityRoutes);
 app.use('/api/ai', aiRoutes);
 app.use('/api/admin', adminRoutes);
+app.use('/api/privacyidea', privacyideaRoutes);
 
 // Health check endpoint
 app.get('/api/health', (req, res) => {

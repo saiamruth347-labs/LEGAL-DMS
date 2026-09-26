@@ -299,7 +299,7 @@ async function citizenLogin(req, res) {
       action: 'CITIZEN_PHONE_AUTH',
       resourceType: 'AUTH',
       status: 'SUCCESS',
-      details: `Citizen authenticated via Firebase Mobile SMS OTP & Passkey. Phone: ${cleanPhone}`,
+      details: `Citizen authenticated via privacyIDEA Mobile SMS OTP & Passkey. Phone: ${cleanPhone}`,
     });
 
     return res.json({
