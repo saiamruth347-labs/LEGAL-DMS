@@ -1,0 +1,24 @@
+services:
+  - type: web
+    name: legal-dms
+    runtime: node
+    plan: free
+    buildCommand: node build_all.js
+    startCommand: node start_all.js
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: DATABASE_URL
+        sync: false
+      - key: DIRECT_URL
+        sync: false
+      - key: JWT_SECRET
+        generateValue: true
+      - key: JWT_REFRESH_SECRET
+        generateValue: true
+      - key: SUPABASE_URL
+        value: https://gkysggdvsaxkefcbsylv.supabase.co
+      - key: SUPABASE_ANON_KEY
+        value: sb_publishable_jkaSdAOuf1kmKZsPyUmybw_A_apOB0W
+      - key: FAST2SMS_API_KEY
+        sync: false

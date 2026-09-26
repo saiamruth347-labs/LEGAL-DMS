@@ -1,9 +1,12 @@
 {
-  "name": "sih",
+  "name": "ncrb-secure-doc-custody",
   "version": "1.0.0",
-  "description": "",
+  "description": "NCRB Secure Digital Document Management System (SIH26190)",
   "main": "start_all.js",
   "scripts": {
+    "build": "node build_all.js",
+    "render-build": "node build_all.js",
+    "postinstall": "node build_all.js",
     "start": "node start_all.js",
     "dev": "node start_all.js",
     "backend": "npm start --prefix backend",

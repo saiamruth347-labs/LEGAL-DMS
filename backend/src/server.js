@@ -90,6 +90,21 @@ app.get('/api/supabase/status', async (req, res) => {
   }
 });
 
+// Serve static frontend assets if built (for production deployment on Render)
+const path = require('path');
+const fs = require('fs');
+
+const frontendDist = path.join(__dirname, '../../frontend/dist');
+if (fs.existsSync(frontendDist)) {
+  app.use(express.static(frontendDist));
+  app.get('*', (req, res, next) => {
+    if (req.path.startsWith('/api')) {
+      return next();
+    }
+    res.sendFile(path.join(frontendDist, 'index.html'));
+  });
+}
+
 // Global error handler
 app.use((err, req, res, next) => {
   console.error('Unhandled server error:', err.message);
