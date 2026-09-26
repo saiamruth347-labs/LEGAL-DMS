@@ -19,6 +19,99 @@ const challengeStore = new Map();
 const DEMO_TEST_CODES = ['849201', '123456', '778899', '991122'];
 
 /**
+ * Dispatch real SMS to phone via configured SMS Gateway (Twilio, Fast2SMS, or Custom Gateway)
+ * Fully compatible with privacyIDEA Section 1.5.8 SMS Gateway specification
+ */
+async function dispatchRealSms(phoneNumber, otp) {
+  const cleanPhone = (phoneNumber || '').replace(/[\s-]/g, '');
+  if (!cleanPhone) return { success: false, reason: 'NO_PHONE_NUMBER' };
+
+  const message = `[NCRB Legal-DMS] Your privacyIDEA 2FA verification OTP is: ${otp}. Valid for 5 minutes. Do not share this code.`;
+
+  // 1. Twilio SMS Gateway Provider
+  if (process.env.TWILIO_ACCOUNT_SID && process.env.TWILIO_AUTH_TOKEN && process.env.TWILIO_PHONE_NUMBER) {
+    try {
+      const sid = process.env.TWILIO_ACCOUNT_SID;
+      const token = process.env.TWILIO_AUTH_TOKEN;
+      const from = process.env.TWILIO_PHONE_NUMBER;
+      const auth = Buffer.from(`${sid}:${token}`).toString('base64');
+      const targetPhone = cleanPhone.startsWith('+') ? cleanPhone : `+91${cleanPhone}`;
+
+      const twilioRes = await fetch(`https://api.twilio.com/2010-04-01/Accounts/${sid}/Messages.json`, {
+        method: 'POST',
+        headers: {
+          'Authorization': `Basic ${auth}`,
+          'Content-Type': 'application/x-www-form-urlencoded',
+        },
+        body: new URLSearchParams({
+          To: targetPhone,
+          From: from,
+          Body: message,
+        }),
+      });
+
+      const twilioData = await twilioRes.json();
+      if (twilioRes.ok) {
+        console.log(`[privacyIDEA SMS Gateway] Real SMS dispatched via Twilio to ${targetPhone}. SID: ${twilioData.sid}`);
+        return { success: true, provider: 'Twilio', sid: twilioData.sid };
+      } else {
+        console.warn('[privacyIDEA SMS Gateway] Twilio dispatch warning:', twilioData.message);
+      }
+    } catch (err) {
+      console.error('[privacyIDEA SMS Gateway] Twilio error:', err.message);
+    }
+  }
+
+  // 2. Fast2SMS Provider (Instant Indian SMS Gateway for +91 numbers)
+  if (process.env.FAST2SMS_API_KEY) {
+    try {
+      const rawNumber = cleanPhone.replace(/^\+91/, '').replace(/\D/g, '');
+      const fastRes = await fetch('https://www.fast2sms.com/dev/bulkV2', {
+        method: 'POST',
+        headers: {
+          'authorization': process.env.FAST2SMS_API_KEY,
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          route: 'otp',
+          variables_values: otp,
+          numbers: rawNumber,
+        }),
+      });
+
+      const fastData = await fastRes.json();
+      if (fastRes.ok && fastData.return) {
+        console.log(`[privacyIDEA SMS Gateway] Real SMS dispatched via Fast2SMS to ${rawNumber}`);
+        return { success: true, provider: 'Fast2SMS', details: fastData };
+      } else {
+        console.warn('[privacyIDEA SMS Gateway] Fast2SMS warning:', fastData.message);
+      }
+    } catch (err) {
+      console.error('[privacyIDEA SMS Gateway] Fast2SMS error:', err.message);
+    }
+  }
+
+  // 3. Custom HTTP SMS Gateway / Webhook (privacyIDEA Section 1.5.8 HTTP Provider)
+  if (process.env.SMS_GATEWAY_URL) {
+    try {
+      const targetUrl = process.env.SMS_GATEWAY_URL
+        .replace('{phone}', encodeURIComponent(cleanPhone))
+        .replace('{otp}', encodeURIComponent(otp));
+
+      const gwRes = await fetch(targetUrl, { method: process.env.SMS_GATEWAY_METHOD || 'GET' });
+      if (gwRes.ok) {
+        console.log(`[privacyIDEA SMS Gateway] Real SMS dispatched via custom gateway to ${cleanPhone}`);
+        return { success: true, provider: 'Custom SMS Gateway' };
+      }
+    } catch (err) {
+      console.error('[privacyIDEA SMS Gateway] Custom gateway error:', err.message);
+    }
+  }
+
+  return { success: false, reason: 'NO_ACTIVE_GATEWAY' };
+}
+
+/**
  * Helper to obtain admin token from privacyIDEA (/auth)
  */
 async function getAdminToken() {
@@ -112,15 +205,22 @@ async function triggerChallenge({ user, phone, type = 'sms' }) {
   // Automatically clean up expired challenges
   setTimeout(() => challengeStore.delete(transactionId), 5 * 60 * 1000);
 
+  // Dispatch real SMS to the device if SMS gateway is configured (Twilio, Fast2SMS, etc.)
+  const smsDelivery = await dispatchRealSms(cleanPhone, generatedOtp);
+  const deliveryStatusText = smsDelivery.success
+    ? `Real SMS message dispatched to ${cleanPhone} via ${smsDelivery.provider}!`
+    : `[privacyIDEA] OTP challenge dispatched for ${username} (${cleanPhone || 'Registered Device'}).`;
+
   return {
     success: true,
-    mode: 'PRIVACYIDEA_AUTHENTICATOR_ENGINE',
+    mode: smsDelivery.success ? `REAL_SMS_${smsDelivery.provider.toUpperCase().replace(/\s+/g, '_')}` : 'PRIVACYIDEA_AUTHENTICATOR_ENGINE',
     version: 'privacyIDEA 3.13 (Embedded Sovereign Engine)',
     transaction_id: transactionId,
     client_mode: 'interactive',
-    message: `[privacyIDEA] OTP challenge dispatched for ${username} (${cleanPhone || 'Registered Device'}).`,
+    message: deliveryStatusText,
     serial: 'PISM' + crypto.randomBytes(4).toString('hex').toUpperCase(),
-    testCode: generatedOtp, // helpful for automated tests / UI demo preview
+    testCode: generatedOtp, // available for testing / simulated demo mode
+    realSmsSent: smsDelivery.success,
   };
 }
 
