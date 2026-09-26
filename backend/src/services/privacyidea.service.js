@@ -84,7 +84,30 @@ async function dispatchRealSms(phoneNumber, otp) {
         console.log(`[privacyIDEA SMS Gateway] Real SMS dispatched via Fast2SMS to ${rawNumber}`);
         return { success: true, provider: 'Fast2SMS', details: fastData };
       } else {
-        console.warn('[privacyIDEA SMS Gateway] Fast2SMS warning:', fastData.message);
+        // Attempt Quick SMS route fallback
+        try {
+          const fastQ = await fetch('https://www.fast2sms.com/dev/bulkV2', {
+            method: 'POST',
+            headers: {
+              'authorization': process.env.FAST2SMS_API_KEY,
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+              route: 'q',
+              message: `Your NCRB Sovereign DMS privacyIDEA OTP is ${otp}. Valid for 5 minutes.`,
+              language: 'english',
+              numbers: rawNumber,
+            }),
+          });
+          const qData = await fastQ.json();
+          if (fastQ.ok && qData.return) {
+            console.log(`[privacyIDEA SMS Gateway] Real Quick SMS dispatched via Fast2SMS to ${rawNumber}`);
+            return { success: true, provider: 'Fast2SMS Quick SMS', details: qData };
+          }
+          console.warn('[privacyIDEA SMS Gateway] Fast2SMS notice:', fastData.message || qData.message);
+        } catch (qErr) {
+          console.warn('[privacyIDEA SMS Gateway] Fast2SMS notice:', fastData.message);
+        }
       }
     } catch (err) {
       console.error('[privacyIDEA SMS Gateway] Fast2SMS error:', err.message);
