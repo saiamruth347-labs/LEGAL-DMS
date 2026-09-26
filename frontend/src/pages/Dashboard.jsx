@@ -127,32 +127,35 @@ export default function Dashboard({ onOpenUpload, onOpenVerify }) {
   return (
     <div className="space-y-6 animate-in fade-in duration-300">
       {/* Top Executive Command Hero */}
-      <div className="relative overflow-hidden bg-gradient-to-r from-[#0F172A] via-[#111C38] to-[#0D1829] border border-[#1E293B] rounded-3xl p-6 lg:p-7 shadow-xl">
+      <div 
+        className="hero-command-card relative overflow-hidden bg-gradient-to-r from-[#0B132B] via-[#0F1C3F] to-[#0A1628] border border-[#1E293B] rounded-3xl p-6 lg:p-7 shadow-2xl !text-white"
+        data-theme-surface="dark"
+      >
         {/* Subtle grid pattern overlay */}
-        <div className="absolute inset-0 bg-[radial-gradient(#38bdf8_1px,transparent_1px)] [background-size:24px_24px] opacity-10 pointer-events-none"></div>
+        <div className="absolute inset-0 bg-[radial-gradient(#38bdf8_1px,transparent_1px)] [background-size:24px_24px] opacity-15 pointer-events-none"></div>
 
         <div className="relative z-10 flex flex-col lg:flex-row lg:items-center justify-between gap-6">
           <div className="space-y-2">
             <div className="flex flex-wrap items-center gap-2">
-              <span className="inline-flex items-center space-x-1.5 px-2.5 py-0.5 rounded-full bg-cyan-950/80 border border-cyan-500/40 text-cyan-300 text-[11px] font-mono font-bold tracking-wider">
+              <span className="inline-flex items-center space-x-1.5 px-2.5 py-0.5 rounded-full bg-cyan-950/80 border border-cyan-500/50 !text-cyan-300 text-[11px] font-mono font-bold tracking-wider">
                 <span className="w-1.5 h-1.5 rounded-full bg-cyan-400 animate-pulse"></span>
-                <span>NCRB CUSTODY COMMAND</span>
+                <span className="!text-cyan-300">NCRB CUSTODY COMMAND</span>
               </span>
 
-              <span className="text-[11px] bg-slate-800/90 text-slate-300 px-2.5 py-0.5 rounded-full font-mono border border-slate-700">
+              <span className="text-[11px] bg-slate-800/90 !text-slate-200 px-2.5 py-0.5 rounded-full font-mono border border-slate-700">
                 CLEARANCE: {user?.role?.replace('_', ' ')}
               </span>
 
-              <span className="text-[11px] bg-emerald-950/70 text-emerald-400 px-2 py-0.5 rounded-full font-mono border border-emerald-500/30">
+              <span className="text-[11px] bg-emerald-950/70 !text-emerald-300 px-2 py-0.5 rounded-full font-mono border border-emerald-500/40">
                 NODE #DELHI-01
               </span>
             </div>
 
-            <h1 className="text-2xl lg:text-3xl font-extrabold text-white tracking-tight">
+            <h1 className="text-2xl lg:text-3xl font-extrabold !text-white tracking-tight drop-shadow-md">
               Welcome back, {user?.fullName}
             </h1>
 
-            <p className="text-xs lg:text-sm text-slate-400 max-w-2xl leading-relaxed">
+            <p className="text-xs lg:text-sm !text-slate-200 max-w-2xl leading-relaxed font-normal">
               National Crime Records Bureau • Digital Evidence Chain of Custody & Blockchain Verification
               Platform. All evidentiary operations are recorded to immutable forensic ledgers under FIPS 180-4.
             </p>
@@ -163,19 +166,19 @@ export default function Dashboard({ onOpenUpload, onOpenVerify }) {
             {can('UPLOAD') && (
               <button
                 onClick={onOpenUpload}
-                className="px-4 py-2.5 rounded-xl bg-gradient-to-r from-cyan-600 via-sky-600 to-blue-600 hover:from-cyan-500 hover:to-blue-500 text-white text-xs font-bold flex items-center space-x-2 shadow-lg shadow-cyan-900/30 hover:shadow-cyan-500/20 transition-all duration-200 active:scale-95"
+                className="px-4 py-2.5 rounded-xl bg-gradient-to-r from-cyan-600 via-sky-600 to-blue-600 hover:from-cyan-500 hover:to-blue-500 !text-white text-xs font-bold flex items-center space-x-2 shadow-lg shadow-cyan-900/30 hover:shadow-cyan-500/20 transition-all duration-200 active:scale-95"
               >
-                <Upload className="w-4 h-4" />
-                <span>Ingest Document</span>
+                <Upload className="w-4 h-4 !text-white" />
+                <span className="!text-white">Ingest Document</span>
               </button>
             )}
 
             <button
               onClick={onOpenVerify}
-              className="px-4 py-2.5 rounded-xl bg-slate-900/90 hover:bg-slate-800 border border-cyan-500/40 text-cyan-300 text-xs font-bold flex items-center space-x-2 transition-all duration-200 active:scale-95 shadow-md"
+              className="px-4 py-2.5 rounded-xl bg-slate-900/90 hover:bg-slate-800 border border-cyan-500/50 !text-cyan-300 text-xs font-bold flex items-center space-x-2 transition-all duration-200 active:scale-95 shadow-md"
             >
-              <SearchCheck className="w-4 h-4 text-cyan-400" />
-              <span>Verify Hash</span>
+              <SearchCheck className="w-4 h-4 !text-cyan-400" />
+              <span className="!text-cyan-300">Verify Hash</span>
             </button>
 
             <Link

@@ -209,37 +209,68 @@ html.light .border-slate-700 {
   border-color: #CBD5E1 !important;
 }
 
-/* Typography contrast in Light Mode */
-html.light .text-white {
+/* Typography contrast in Light Mode - ensure body text is dark, but protect dark containers and buttons */
+html.light body {
   color: #0F172A !important;
 }
 
-html.light .text-\[\#F1F5F9\] {
-  color: #0F172A !important;
+/* All buttons with gradients or color fills MUST have crisp white text */
+button[class*="from-cyan-600"],
+button[class*="from-blue-600"],
+button[class*="from-emerald-600"],
+button[class*="bg-cyan-600"],
+button[class*="bg-blue-600"],
+button[class*="bg-emerald-600"],
+button[class*="bg-gradient-to-r"],
+.btn-primary {
+  color: #FFFFFF !important;
 }
 
-html.light .text-slate-100,
-html.light .text-slate-200 {
-  color: #1E293B !important;
+button[class*="from-cyan-600"] *,
+button[class*="from-blue-600"] *,
+button[class*="from-emerald-600"] *,
+button[class*="bg-cyan-600"] *,
+button[class*="bg-blue-600"] *,
+button[class*="bg-emerald-600"] *,
+button[class*="bg-gradient-to-r"] *,
+.btn-primary * {
+  color: #FFFFFF !important;
 }
 
-html.light .text-slate-300 {
-  color: #334155 !important;
+/* Executive Command Hero Banner & Dark Surfaces (Must remain high-contrast white & light blue text) */
+.hero-command-card,
+[data-theme-surface="dark"],
+.dark-surface {
+  color: #FFFFFF !important;
 }
 
-html.light .text-slate-400 {
-  color: #64748B !important;
+.hero-command-card h1,
+.hero-command-card h2,
+.hero-command-card h3,
+.hero-command-card .text-white,
+[data-theme-surface="dark"] h1,
+[data-theme-surface="dark"] h2,
+[data-theme-surface="dark"] h3,
+[data-theme-surface="dark"] .text-white {
+  color: #FFFFFF !important;
 }
 
-html.light .text-slate-500 {
-  color: #64748B !important;
+.hero-command-card p,
+[data-theme-surface="dark"] p,
+.hero-command-card .text-slate-400,
+[data-theme-surface="dark"] .text-slate-400,
+.hero-command-card .text-slate-300,
+[data-theme-surface="dark"] .text-slate-300 {
+  color: #CBD5E1 !important;
 }
 
-/* Primary accent colors in light mode for higher contrast */
-html.light .text-cyan-400,
-html.light .text-cyan-300 {
-  color: #0284C7 !important;
+.hero-command-card .text-cyan-300,
+.hero-command-card .text-cyan-400,
+[data-theme-surface="dark"] .text-cyan-300,
+[data-theme-surface="dark"] .text-cyan-400 {
+  color: #38BDF8 !important;
 }
+
 
 html.light .text-emerald-400 {
   color: #059669 !important;
@@ -371,20 +402,36 @@ html.light aside {
   border-color: #E2E8F0 !important;
 }
 
-html.light aside nav a.bg-cyan-950\/70 {
-  background-color: #E0F2FE !important;
-  color: #0369A1 !important;
-  border-color: #7DD3FC !important;
-  font-weight: 600;
-}
-
-html.light aside nav a:not(.bg-cyan-950\/70) {
+html.light aside nav a {
   color: #475569 !important;
 }
 
-html.light aside nav a:not(.bg-cyan-950\/70):hover {
+html.light aside nav a:hover {
   background-color: #F1F5F9 !important;
   color: #0F172A !important;
+}
+
+/* Active NavLink in Light Mode - high contrast crisp blue pill */
+html.light aside nav a.active,
+html.light aside nav a[class*="from-cyan-950"] {
+  background: #E0F2FE !important;
+  background-image: none !important;
+  color: #0369A1 !important;
+  border-color: #38BDF8 !important;
+  box-shadow: 0 1px 3px 0 rgba(2, 132, 199, 0.15) !important;
+  font-weight: 700 !important;
+}
+
+html.light aside nav a.active span,
+html.light aside nav a[class*="from-cyan-950"] span {
+  color: #0369A1 !important;
+  font-weight: 700 !important;
+}
+
+html.light aside nav a.active svg,
+html.light aside nav a[class*="from-cyan-950"] svg {
+  color: #0284C7 !important;
+  filter: none !important;
 }
 
 /* Recharts Tooltips in Light Mode */
