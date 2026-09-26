@@ -1,0 +1,6 @@
+# Robots.txt for NCRB Secure Digital Document Management System (SIH26190)
+User-agent: *
+Allow: /
+Disallow: /api/
+
+Sitemap: /sitemap.xml

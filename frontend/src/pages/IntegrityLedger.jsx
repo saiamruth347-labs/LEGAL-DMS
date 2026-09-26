@@ -1,0 +1,371 @@
+import React, { useState, useEffect } from 'react';
+import {
+  Layers,
+  ShieldCheck,
+  CheckCircle2,
+  AlertTriangle,
+  Search,
+  Link as LinkIcon,
+  RefreshCw,
+  ArrowRight,
+  ChevronDown,
+  Loader2,
+  FileCheck,
+  Copy,
+  Check,
+} from 'lucide-react';
+import { api } from '../services/api';
+
+export default function IntegrityLedger({ onOpenVerify }) {
+  const [blocks, setBlocks] = useState([]);
+  const [total, setTotal] = useState(0);
+  const [page, setPage] = useState(1);
+  const [totalPages, setTotalPages] = useState(1);
+  const [search, setSearch] = useState('');
+  const [loading, setLoading] = useState(true);
+  const [copiedHash, setCopiedHash] = useState(null);
+
+  // Full chain validation state
+  const [validatingChain, setValidatingChain] = useState(false);
+  const [chainValidationResult, setChainValidationResult] = useState(null);
+
+  const loadLedger = async () => {
+    setLoading(true);
+    try {
+      const res = await api.getLedger({ page, limit: 15, search });
+      if (res.success) {
+        setBlocks(res.blocks);
+        setTotal(res.total);
+        setTotalPages(res.totalPages);
+      }
+    } catch (err) {
+      console.warn('Failed to load ledger:', err);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    loadLedger();
+  }, [page]);
+
+  const handleSearchSubmit = (e) => {
+    e.preventDefault();
+    setPage(1);
+    loadLedger();
+  };
+
+  const handleCopyHash = (hash, id) => {
+    navigator.clipboard.writeText(hash);
+    setCopiedHash(id);
+    setTimeout(() => setCopiedHash(null), 2000);
+  };
+
+  const handleValidateChain = async () => {
+    setValidatingChain(true);
+    setChainValidationResult(null);
+    try {
+      const res = await api.validateChain();
+      if (res.success) {
+        setChainValidationResult(res);
+      }
+    } catch (err) {
+      setChainValidationResult({
+        isValid: false,
+        message: 'Chain validation request failed: ' + err.message,
+      });
+    } finally {
+      setValidatingChain(false);
+    }
+  };
+
+  return (
+    <div className="space-y-6 animate-in fade-in duration-300">
+      {/* Header */}
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+        <div>
+          <div className="flex items-center space-x-2">
+            <span className="text-xs font-mono uppercase tracking-wider text-cyan-400 font-bold">
+              BLOCKCHAIN CONSENSUS LEDGER
+            </span>
+            <span className="text-[10px] bg-slate-800 text-slate-300 px-2 py-0.5 rounded-full font-mono border border-slate-700">
+              BLOCKS: {total}
+            </span>
+          </div>
+          <h1 className="text-2xl font-extrabold text-white mt-1">Tamper-Evident Integrity Ledger</h1>
+          <p className="text-xs text-slate-400">
+            Immutable SHA-256 hash chaining designed for Hyperledger Fabric / permissioned consortium integration
+          </p>
+        </div>
+
+        <div className="flex items-center space-x-3">
+          <button
+            onClick={handleValidateChain}
+            disabled={validatingChain}
+            className="px-4 py-2.5 rounded-xl bg-emerald-950/80 hover:bg-emerald-900 border border-emerald-500/40 text-emerald-300 text-xs font-bold flex items-center space-x-2 shadow-lg shadow-emerald-950/30 transition-all duration-200 active:scale-95 disabled:opacity-50"
+          >
+            {validatingChain ? (
+              <Loader2 className="w-4 h-4 animate-spin text-emerald-400" />
+            ) : (
+              <ShieldCheck className="w-4 h-4 text-emerald-400" />
+            )}
+            <span>Validate Entire Chain</span>
+          </button>
+
+          <button
+            onClick={onOpenVerify}
+            className="px-4 py-2.5 rounded-xl bg-slate-900 hover:bg-slate-800 border border-cyan-500/40 text-cyan-300 text-xs font-bold flex items-center space-x-2 transition-all duration-200 active:scale-95 shadow-sm"
+          >
+            <FileCheck className="w-4 h-4 text-cyan-400" />
+            <span>Verify Document</span>
+          </button>
+        </div>
+      </div>
+
+      {/* Chain Validation Result Banner */}
+      {chainValidationResult && (
+        <div
+          className={`p-5 rounded-2xl border flex items-start space-x-3.5 animate-in fade-in ${
+            chainValidationResult.isValid
+              ? 'bg-emerald-950/50 border-emerald-500/50 shadow-glow-emerald'
+              : 'bg-rose-950/50 border-rose-500/50 shadow-glow-rose'
+          }`}
+        >
+          {chainValidationResult.isValid ? (
+            <CheckCircle2 className="w-6 h-6 text-emerald-400 flex-shrink-0 mt-0.5" />
+          ) : (
+            <AlertTriangle className="w-6 h-6 text-rose-400 flex-shrink-0 mt-0.5" />
+          )}
+          <div className="space-y-1 text-xs">
+            <h3
+              className={`font-bold uppercase tracking-wider text-sm ${
+                chainValidationResult.isValid ? 'text-emerald-300' : 'text-rose-300'
+              }`}
+            >
+              {chainValidationResult.isValid
+                ? '✓ BLOCKCHAIN LEDGER IS 100% INTACT & CRYPTOGRAPHICALLY SOUND'
+                : '⚠ INTEGRITY COMPROMISED: CHAIN INCONSISTENCY DETECTED'}
+            </h3>
+            <p className="text-slate-200 leading-relaxed">{chainValidationResult.message}</p>
+            <div className="text-[11px] font-mono text-slate-400 pt-1 flex flex-wrap gap-2">
+              <span className="bg-slate-900/80 px-2 py-0.5 rounded border border-slate-700">
+                Validated Blocks: {chainValidationResult.totalBlocks}
+              </span>
+              <span className="bg-slate-900/80 px-2 py-0.5 rounded border border-slate-700">
+                Consensus Nodes: NCRB-NODE-01, NCRB-NODE-02, MHA-AUDIT
+              </span>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Blockchain Chaining Architecture Visualizer Strip */}
+      <div className="cyber-card rounded-2xl p-5 shadow-sm space-y-3.5">
+        <div className="flex items-center justify-between">
+          <span className="text-xs font-bold text-white uppercase tracking-wider flex items-center space-x-2">
+            <Layers className="w-4 h-4 text-cyan-400" />
+            <span>Cryptographic Hash-Chaining Sequence</span>
+          </span>
+          <span className="text-[10px] font-mono text-cyan-300 bg-cyan-950/80 px-2.5 py-1 rounded-full border border-cyan-500/30">
+            SHA-256(BlockIndex || DocHash || PrevHash || Time)
+          </span>
+        </div>
+
+        {/* Chaining Strip */}
+        <div className="flex items-center space-x-3 overflow-x-auto py-2">
+          {blocks.slice(0, 4).reverse().map((b, idx) => (
+            <React.Fragment key={b.id}>
+              <div className="flex-shrink-0 w-64 bg-slate-900/90 border border-slate-700/80 rounded-xl p-3.5 text-xs space-y-2 font-mono hover:border-cyan-500/50 transition">
+                <div className="flex justify-between items-center text-[11px] pb-1.5 border-b border-slate-800">
+                  <span className="text-cyan-400 font-bold">
+                    {b.blockIndex === 0 ? 'GENESIS BLOCK #0' : `BLOCK #${b.blockIndex}`}
+                  </span>
+                  <span className="text-[9px] bg-emerald-950 text-emerald-400 px-2 py-0.5 rounded-full font-bold border border-emerald-500/30">
+                    VERIFIED
+                  </span>
+                </div>
+                <div>
+                  <span className="text-slate-500 text-[10px] block">Doc Hash:</span>
+                  <span className="text-emerald-400 text-[10px] truncate block">{b.documentHash}</span>
+                </div>
+                <div>
+                  <span className="text-slate-500 text-[10px] block">Prev Block Hash:</span>
+                  <span className="text-slate-400 text-[10px] truncate block">{b.previousHash}</span>
+                </div>
+                <div>
+                  <span className="text-slate-500 text-[10px] block">Block Hash:</span>
+                  <span className="text-cyan-300 text-[10px] truncate block font-bold">{b.blockHash}</span>
+                </div>
+              </div>
+
+              {idx < 3 && idx < blocks.length - 1 && (
+                <div className="text-cyan-400 flex-shrink-0 animate-pulse">
+                  <ArrowRight className="w-5 h-5" />
+                </div>
+              )}
+            </React.Fragment>
+          ))}
+        </div>
+      </div>
+
+      {/* Search Bar */}
+      <div className="cyber-card rounded-2xl p-4 shadow-sm flex items-center justify-between gap-4">
+        <form onSubmit={handleSearchSubmit} className="relative w-full max-w-md">
+          <Search className="w-4 h-4 text-slate-500 absolute left-3.5 top-3" />
+          <input
+            type="text"
+            value={search}
+            onChange={(e) => setSearch(e.target.value)}
+            placeholder="Search block by Document ID or Hash string..."
+            className="w-full bg-slate-900 border border-slate-700/80 rounded-xl pl-10 pr-3.5 py-2.5 text-xs text-white placeholder-slate-500 focus:border-cyan-400 focus:outline-none font-mono"
+          />
+        </form>
+
+        <button
+          onClick={loadLedger}
+          className="p-2.5 rounded-xl bg-slate-900 hover:bg-slate-800 border border-slate-700 text-slate-400 hover:text-white transition shadow-sm"
+          title="Refresh Ledger"
+        >
+          <RefreshCw className="w-4 h-4" />
+        </button>
+      </div>
+
+      {/* Ledger Blocks Table */}
+      <div className="cyber-card rounded-2xl shadow-sm overflow-hidden">
+        {loading ? (
+          <div className="py-24 text-center text-xs text-slate-400 flex flex-col items-center justify-center space-y-3">
+            <Loader2 className="w-6 h-6 animate-spin text-cyan-400" />
+            <span className="font-mono">Verifying ledger chain state across consensus nodes...</span>
+          </div>
+        ) : blocks.length === 0 ? (
+          <div className="p-16 text-center text-xs text-slate-400 space-y-2">
+            <Layers className="w-10 h-10 text-slate-600 mx-auto" />
+            <div className="font-bold text-white text-sm">No Ledger Blocks Found</div>
+            <p>No blocks matched your search criteria.</p>
+          </div>
+        ) : (
+          <div className="overflow-x-auto">
+            <table className="w-full text-left text-xs font-mono">
+              <thead className="bg-[#0B1120] text-slate-400 font-semibold border-b border-slate-800">
+                <tr>
+                  <th className="p-3.5">Block #</th>
+                  <th className="p-3.5">Document Record</th>
+                  <th className="p-3.5">Document Hash</th>
+                  <th className="p-3.5">Previous Block Hash</th>
+                  <th className="p-3.5">Current Block Hash</th>
+                  <th className="p-3.5">Validator</th>
+                  <th className="p-3.5">Timestamp</th>
+                </tr>
+              </thead>
+              <tbody className="divide-y divide-slate-800/80">
+                {blocks.map((block) => (
+                  <tr key={block.id} className="hover:bg-slate-800/40 transition">
+                    <td className="p-3.5 font-bold text-cyan-400 whitespace-nowrap">
+                      #{block.blockIndex}
+                    </td>
+
+                    <td className="p-3.5 whitespace-nowrap">
+                      {block.document ? (
+                        <div>
+                          <div className="font-bold text-white truncate max-w-[180px] font-sans">
+                            {block.document.title}
+                          </div>
+                          <div className="text-[10px] text-cyan-400 font-mono">
+                            {block.document.id}
+                          </div>
+                        </div>
+                      ) : (
+                        <span className="text-slate-500 font-sans italic text-[11px]">
+                          Genesis / Anchor
+                        </span>
+                      )}
+                    </td>
+
+                    <td className="p-3.5">
+                      <div className="flex items-center space-x-1.5">
+                        <span className="text-emerald-400 max-w-[120px] truncate text-[10px] bg-slate-900 px-2 py-1 rounded border border-slate-800">
+                          {block.documentHash}
+                        </span>
+                        <button
+                          onClick={() => handleCopyHash(block.documentHash, `doc-${block.id}`)}
+                          className="p-1 rounded hover:bg-slate-700 text-slate-400 hover:text-white transition"
+                          title="Copy Document Hash"
+                        >
+                          {copiedHash === `doc-${block.id}` ? (
+                            <Check className="w-3 h-3 text-emerald-400" />
+                          ) : (
+                            <Copy className="w-3 h-3" />
+                          )}
+                        </button>
+                      </div>
+                    </td>
+
+                    <td className="p-3.5">
+                      <span className="text-slate-400 max-w-[120px] truncate text-[10px] block">
+                        {block.previousHash}
+                      </span>
+                    </td>
+
+                    <td className="p-3.5">
+                      <div className="flex items-center space-x-1.5">
+                        <span className="text-cyan-300 font-bold max-w-[120px] truncate text-[10px] bg-slate-900 px-2 py-1 rounded border border-slate-800">
+                          {block.blockHash}
+                        </span>
+                        <button
+                          onClick={() => handleCopyHash(block.blockHash, `blk-${block.id}`)}
+                          className="p-1 rounded hover:bg-slate-700 text-slate-400 hover:text-white transition"
+                          title="Copy Block Hash"
+                        >
+                          {copiedHash === `blk-${block.id}` ? (
+                            <Check className="w-3 h-3 text-emerald-400" />
+                          ) : (
+                            <Copy className="w-3 h-3" />
+                          )}
+                        </button>
+                      </div>
+                    </td>
+
+                    <td className="p-3.5 text-slate-300 text-[10px] whitespace-nowrap">
+                      <span className="px-2 py-0.5 rounded bg-slate-800 text-slate-300 border border-slate-700">
+                        {block.validator}
+                      </span>
+                    </td>
+
+                    <td className="p-3.5 text-slate-400 text-[10px] whitespace-nowrap">
+                      {new Date(block.timestamp).toLocaleString()}
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        )}
+
+        {/* Pagination */}
+        {totalPages > 1 && (
+          <div className="p-3.5 border-t border-slate-800 flex justify-between items-center text-xs">
+            <span className="text-slate-400">
+              Page {page} of {totalPages}
+            </span>
+            <div className="flex space-x-2">
+              <button
+                onClick={() => setPage((p) => Math.max(p - 1, 1))}
+                disabled={page === 1}
+                className="px-3.5 py-1.5 bg-slate-800 hover:bg-slate-700 disabled:opacity-40 text-slate-200 rounded-lg transition"
+              >
+                Previous
+              </button>
+              <button
+                onClick={() => setPage((p) => Math.min(p + 1, totalPages))}
+                disabled={page === totalPages}
+                className="px-3.5 py-1.5 bg-slate-800 hover:bg-slate-700 disabled:opacity-40 text-slate-200 rounded-lg transition"
+              >
+                Next
+              </button>
+            </div>
+          </div>
+        )}
+      </div>
+    </div>
+  );
+}

@@ -1,0 +1,17 @@
+{
+  "name": "sih",
+  "version": "1.0.0",
+  "description": "",
+  "main": "start_all.js",
+  "scripts": {
+    "start": "node start_all.js",
+    "dev": "node start_all.js",
+    "backend": "npm start --prefix backend",
+    "frontend": "npm run dev --prefix frontend",
+    "test": "node backend/test_verification.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs"
+}

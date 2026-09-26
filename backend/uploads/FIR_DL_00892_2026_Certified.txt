@@ -1,0 +1,28 @@
+GOVERNMENT OF INDIA - MINISTRY OF HOME AFFAIRS
+NATIONAL CRIME RECORDS BUREAU (WOMEN SAFETY DIVISION)
+FIRST INFORMATION REPORT (Under Section 173 BNSS / 154 CrPC)
+
+FIR Number: FIR-2026-DL-00892
+Police Station: NCR Cyber Crime Cell, Dwarka District, New Delhi
+Date & Time of Occurrence: 12 August 2026, 09:30 AM IST
+Date & Time Reported: 12 August 2026, 11:45 AM IST
+
+COMPLAINANT DETAILS:
+Name: Ms. Priya Sen, Age: 29
+Occupation: Proprietor, Sen Crafts Enterprise
+Address: Sector 14, Dwarka, New Delhi
+
+ACCUSED DETAILS:
+Unknown administrators of illicit instant-loan mobile application "RupeeInstant247"
+Syndicate operating multiple VoIP phone lines originating from overseas proxies.
+
+ACTS & SECTIONS:
+- Bharatiya Nyaya Sanhita (BNS) 2023: Section 318(4) (Cheating and dishonestly inducing delivery of property)
+- Bharatiya Nyaya Sanhita (BNS) 2023: Section 74 (Assault or use of criminal force to woman with intent to outrage her modesty)
+- Information Technology Act 2000: Section 66C & 66D (Identity theft and cheating by personation)
+
+BRIEF FACTS OF COMPLAINT:
+Complainant states she downloaded the app upon receiving unsolicited SMS. Application demanded invasive device permissions including photo gallery and contact list access. Within 48 hours, altered morphed photographs were transmitted to family contacts along with extortion demands for INR 3,50,000.
+
+Investigating Officer: Insp. Vikram Rathore (Badge: NCRB-INV-104)
+Digital Custody Anchor: SHA-256 Registered

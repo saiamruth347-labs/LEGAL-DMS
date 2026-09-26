@@ -1,0 +1,18 @@
+CENTRAL FORENSIC SCIENCE LABORATORY (CFSL)
+DIRECTORATE OF FORENSIC SCIENCE SERVICES, MHA
+CYBER FORENSICS & REVERSE ENGINEERING DIVISION
+
+EXAMINATION REPORT NO: CFSL-DL-2026-CY-941
+Reference: Request from NCRB WSD in FIR-2026-DL-00892
+
+EVIDENCE RECEIVED:
+Item 1: 01 Samsung Galaxy S24 Ultra (Gold), IMEI: 359182049182740 (Tamper-seal intact)
+Item 2: 01 SanDisk Extreme 256GB MicroSD Card
+
+LABORATORY FINDINGS:
+1. Extraction of APK 'RupeeInstant247.apk' reveals hardcoded command & control (C2) server IP addresses routing to 185.220.101.42.
+2. Background service silently uploaded 1,482 image thumbnails to an encrypted Telegram bot channel without user consent.
+3. Metadata logs matched complainant's contact synchronization events.
+
+CONCLUSION: Malicious spyware behavior confirmed beyond reasonable doubt.
+Forensic Analyst: Dr. A. K. Sundaram, Senior Scientific Officer

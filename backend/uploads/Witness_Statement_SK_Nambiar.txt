@@ -1,0 +1,11 @@
+CENTRAL POLICE INVESTIGATION RECORD
+DEPOSITION UNDER SECTION 180 BHARATIYA NAGARIK SURAKSHA SANHITA (BNSS)
+
+Statement of Shri S. K. Nambiar, Branch Manager, State Apex Bank, Connaught Place Branch.
+Recorded on 14 August 2026 by Insp. Vikram Rathore in Case CASE-2026-001.
+
+STATEMENT:
+"I am producing official server transaction logs regarding mule account #40918230018 maintained in the name of M/s Delta Horizon Logistics. Between August 10 and August 13, 2026, over 42 Micro-UPI deposits totaling INR 18.4 Lakhs were received and immediately transferred via RTGS to an offshore wallet gateway. Account frozen upon receipt of Section 91 notice."
+
+Verification: Statement voluntarily made without coercion.
+Deponent Signature Verified.

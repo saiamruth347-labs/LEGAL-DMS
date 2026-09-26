@@ -1,0 +1,406 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --bg-app: #F8FAFC;
+    --bg-header: #FFFFFF;
+    --bg-sidebar: #0F172A;
+    --bg-card: #FFFFFF;
+    --bg-card-subtle: #F1F5F9;
+    --border-main: #E2E8F0;
+    --border-accent: #38BDF8;
+    --text-primary: #0F172A;
+    --text-secondary: #475569;
+    --text-muted: #94A3B8;
+  }
+
+  html.dark {
+    --bg-app: #070B14;
+    --bg-header: #0B132B;
+    --bg-sidebar: #090D16;
+    --bg-card: #0F1E36;
+    --bg-card-subtle: #132544;
+    --border-main: #1E293B;
+    --border-accent: #06B6D4;
+    --text-primary: #F1F5F9;
+    --text-secondary: #94A3B8;
+    --text-muted: #64748B;
+  }
+
+  body {
+    background-color: var(--bg-app);
+    color: var(--text-primary);
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    transition: background-color 0.25s ease, color 0.25s ease;
+    overflow-x: hidden;
+  }
+}
+
+/* ==========================================================================
+   SCROLLBAR STYLING
+   ========================================================================== */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: rgba(148, 163, 184, 0.3);
+  border-radius: 9999px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(148, 163, 184, 0.5);
+}
+html.dark ::-webkit-scrollbar-thumb {
+  background: rgba(30, 41, 59, 0.8);
+}
+html.dark ::-webkit-scrollbar-thumb:hover {
+  background: rgba(51, 65, 85, 1);
+}
+
+/* ==========================================================================
+   CYBER & GOVTECH CARD UTILITIES
+   ========================================================================== */
+.glass-panel {
+  background: rgba(15, 23, 42, 0.75);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(51, 65, 85, 0.4);
+}
+
+html.light .glass-panel {
+  background: rgba(255, 255, 255, 0.85);
+  border-color: rgba(226, 232, 240, 0.9);
+  box-shadow: 0 4px 20px -2px rgba(15, 23, 42, 0.05);
+}
+
+.cyber-card {
+  background: rgba(15, 23, 42, 0.8);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(30, 41, 59, 0.8);
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.cyber-card:hover {
+  border-color: rgba(6, 182, 212, 0.35);
+  box-shadow: 0 8px 24px -4px rgba(6, 182, 212, 0.1);
+  transform: translateY(-1px);
+}
+
+.cyber-card-glow {
+  background: rgba(15, 23, 42, 0.9);
+  backdrop-filter: blur(12px);
+  border: 1px solid rgba(6, 182, 212, 0.4);
+  box-shadow: 0 0 20px -3px rgba(6, 182, 212, 0.2);
+  transition: all 0.2s ease;
+}
+
+html.light .cyber-card {
+  background: #FFFFFF;
+  border-color: #E2E8F0;
+  box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.04), 0 1px 2px -1px rgba(0, 0, 0, 0.02);
+}
+
+html.light .cyber-card:hover {
+  border-color: #38BDF8;
+  box-shadow: 0 10px 25px -5px rgba(2, 132, 199, 0.1);
+}
+
+html.light .cyber-card-glow {
+  background: #FFFFFF;
+  border-color: #0284C7;
+  box-shadow: 0 4px 20px -2px rgba(2, 132, 199, 0.15);
+}
+
+.hash-text {
+  font-family: 'JetBrains Mono', monospace;
+  letter-spacing: -0.02em;
+}
+
+/* ==========================================================================
+   INTERACTIVE CRYPTOGRAPHIC CHIP / COPY UTILITY
+   ========================================================================== */
+.hash-chip {
+  font-family: 'JetBrains Mono', monospace;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.375rem;
+  padding: 0.25rem 0.5rem;
+  border-radius: 0.375rem;
+  font-size: 0.7rem;
+  transition: all 0.15s ease;
+}
+
+/* ==========================================================================
+   GLOWING ACCENTS & HUD UTILITIES
+   ========================================================================== */
+.hud-border {
+  position: relative;
+}
+.hud-border::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(6, 182, 212, 0.6), transparent);
+}
+
+/* ==========================================================================
+   LIGHT THEME OVERRIDES (CRISP OFFICIAL GOVERNMENT & INVESTIGATION THEME)
+   ========================================================================== */
+html.light body {
+  background-color: #F4F7FB !important;
+  color: #0F172A !important;
+}
+
+/* App root backgrounds */
+html.light .bg-\[\#090D16\],
+html.light .bg-\[\#070B14\],
+html.light .bg-\[\#080D18\] {
+  background-color: #F4F7FB !important;
+}
+
+/* Header, Sidebar, and Sub-header surfaces */
+html.light .bg-\[\#0B1120\],
+html.light .bg-\[\#0B1120\]\/90 {
+  background-color: #FFFFFF !important;
+  border-color: #E2E8F0 !important;
+}
+
+/* Cards, Modals, Panels, and Widget Containers */
+html.light .bg-\[\#0F172A\],
+html.light .bg-\[\#0F172A\]\/90,
+html.light .bg-\[\#0F172A\]\/80,
+html.light .bg-\[\#0F172A\]\/75,
+html.light .bg-\[\#0F172A\]\/85,
+html.light .bg-slate-900,
+html.light .bg-slate-900\/90,
+html.light .bg-slate-900\/80,
+html.light .bg-slate-900\/60,
+html.light .bg-slate-950 {
+  background-color: #FFFFFF !important;
+  border-color: #E2E8F0 !important;
+  box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.05), 0 1px 2px -1px rgba(0, 0, 0, 0.03);
+}
+
+/* Secondary Panels */
+html.light .bg-slate-900\/40,
+html.light .bg-slate-900\/30 {
+  background-color: #F8FAFC !important;
+  border-color: #E2E8F0 !important;
+}
+
+/* Borders & Dividers */
+html.light .border-\[\#1E293B\],
+html.light .border-slate-800,
+html.light .border-slate-800\/80 {
+  border-color: #E2E8F0 !important;
+}
+
+html.light .border-\[\#334155\],
+html.light .border-slate-700 {
+  border-color: #CBD5E1 !important;
+}
+
+/* Typography contrast in Light Mode */
+html.light .text-white {
+  color: #0F172A !important;
+}
+
+html.light .text-\[\#F1F5F9\] {
+  color: #0F172A !important;
+}
+
+html.light .text-slate-100,
+html.light .text-slate-200 {
+  color: #1E293B !important;
+}
+
+html.light .text-slate-300 {
+  color: #334155 !important;
+}
+
+html.light .text-slate-400 {
+  color: #64748B !important;
+}
+
+html.light .text-slate-500 {
+  color: #64748B !important;
+}
+
+/* Primary accent colors in light mode for higher contrast */
+html.light .text-cyan-400,
+html.light .text-cyan-300 {
+  color: #0284C7 !important;
+}
+
+html.light .text-emerald-400 {
+  color: #059669 !important;
+}
+
+html.light .text-purple-400 {
+  color: #7C3AED !important;
+}
+
+html.light .text-rose-400 {
+  color: #DC2626 !important;
+}
+
+html.light .text-amber-400 {
+  color: #D97706 !important;
+}
+
+/* Form Inputs, Selects, and Textareas */
+html.light input,
+html.light select,
+html.light textarea {
+  background-color: #FFFFFF !important;
+  border-color: #CBD5E1 !important;
+  color: #0F172A !important;
+}
+
+html.light input::placeholder,
+html.light textarea::placeholder {
+  color: #94A3B8 !important;
+}
+
+html.light input:focus,
+html.light select:focus,
+html.light textarea:focus {
+  border-color: #0284C7 !important;
+  box-shadow: 0 0 0 2px rgba(2, 132, 199, 0.15) !important;
+}
+
+/* Buttons and Pills with slate-900 / slate-800 backgrounds */
+html.light .hover\:bg-slate-800:hover,
+html.light .hover\:bg-slate-700:hover,
+html.light .hover\:bg-slate-900\/50:hover,
+html.light .hover\:bg-slate-800\/40:hover {
+  background-color: #F1F5F9 !important;
+  color: #0F172A !important;
+}
+
+/* Table styling in Light Mode */
+html.light thead {
+  background-color: #F8FAFC !important;
+  border-bottom: 1px solid #E2E8F0 !important;
+}
+
+html.light thead th {
+  color: #475569 !important;
+}
+
+html.light tbody tr {
+  border-bottom-color: #F1F5F9 !important;
+}
+
+html.light tbody tr:hover {
+  background-color: #F8FAFC !important;
+}
+
+/* Status Badges & Pills in Light Mode */
+html.light .bg-cyan-950\/50,
+html.light .bg-cyan-950\/60,
+html.light .bg-cyan-950\/70,
+html.light .bg-cyan-950\/80,
+html.light .bg-cyan-950\/40,
+html.light .bg-cyan-950\/20,
+html.light .bg-cyan-950 {
+  background-color: #F0F9FF !important;
+  color: #0369A1 !important;
+  border-color: #BAE6FD !important;
+}
+
+html.light .bg-emerald-950\/50,
+html.light .bg-emerald-950\/60,
+html.light .bg-emerald-950\/20,
+html.light .bg-emerald-950 {
+  background-color: #ECFDF5 !important;
+  color: #065F46 !important;
+  border-color: #A7F3D0 !important;
+}
+
+html.light .bg-rose-950\/50,
+html.light .bg-rose-950\/60,
+html.light .bg-rose-950\/40,
+html.light .bg-rose-950\/30,
+html.light .bg-rose-950\/20,
+html.light .bg-rose-950 {
+  background-color: #FEF2F2 !important;
+  color: #991B1B !important;
+  border-color: #FECACA !important;
+}
+
+html.light .bg-amber-950\/50,
+html.light .bg-amber-950\/60,
+html.light .bg-amber-950\/20,
+html.light .bg-amber-950 {
+  background-color: #FFFBEB !important;
+  color: #92400E !important;
+  border-color: #FDE68A !important;
+}
+
+html.light .bg-purple-950\/50,
+html.light .bg-purple-950\/40,
+html.light .bg-purple-950\/20,
+html.light .bg-purple-950 {
+  background-color: #F5F3FF !important;
+  color: #6D28D9 !important;
+  border-color: #DDD6FE !important;
+}
+
+html.light .bg-blue-950\/50,
+html.light .bg-blue-950\/60,
+html.light .bg-blue-950\/20,
+html.light .bg-blue-950 {
+  background-color: #EFF6FF !important;
+  color: #1D4ED8 !important;
+  border-color: #BFDBFE !important;
+}
+
+/* Sidebar navigation active / hover in Light Mode */
+html.light aside {
+  background-color: #FFFFFF !important;
+  border-color: #E2E8F0 !important;
+}
+
+html.light aside nav a.bg-cyan-950\/70 {
+  background-color: #E0F2FE !important;
+  color: #0369A1 !important;
+  border-color: #7DD3FC !important;
+  font-weight: 600;
+}
+
+html.light aside nav a:not(.bg-cyan-950\/70) {
+  color: #475569 !important;
+}
+
+html.light aside nav a:not(.bg-cyan-950\/70):hover {
+  background-color: #F1F5F9 !important;
+  color: #0F172A !important;
+}
+
+/* Recharts Tooltips in Light Mode */
+html.light .recharts-default-tooltip {
+  background-color: #FFFFFF !important;
+  border: 1px solid #CBD5E1 !important;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1) !important;
+  border-radius: 8px !important;
+  color: #0F172A !important;
+}
+
+html.light .recharts-tooltip-item {
+  color: #0F172A !important;
+}
+
+html.light .recharts-cartesian-grid-horizontal line,
+html.light .recharts-cartesian-grid-vertical line {
+  stroke: #E2E8F0 !important;
+}

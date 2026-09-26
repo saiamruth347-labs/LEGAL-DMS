@@ -1,0 +1,12 @@
+NATIONAL FORENSIC CYBER WING
+REPORT ON SYNTHETIC AUDIO-VISUAL MEDIA VERIFICATION
+
+CASE: CASE-2026-002 (Deepfake Audio-Video Impersonation)
+MEDIA ANALYZED: 42-second MP4 file circulated on social messaging applications.
+
+SPECTROGRAPHIC FINDINGS:
+- Facial landmark jitter score: 0.88 (Artificial boundary blending identified)
+- Audio spectral discontinuity at 4.2 kHz indicates neural voice synthesis (RVC/DiffSinger artifact)
+- Video frame rate inconsistency at frames 240-360 indicates spliced generative frames.
+
+VERDICT: Spliced AI-generated deepfake media designed for defamation.
