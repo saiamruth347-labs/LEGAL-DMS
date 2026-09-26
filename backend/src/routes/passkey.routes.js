@@ -6,5 +6,6 @@ router.post('/register/options', passkeyController.getRegistrationOptions);
 router.post('/register/verify', passkeyController.verifyRegistration);
 router.post('/authenticate/options', passkeyController.getAuthenticationOptions);
 router.post('/authenticate/verify', passkeyController.verifyAuthentication);
+router.get('/user-status', passkeyController.getUserPasskeyStatus);
 
 module.exports = router;
