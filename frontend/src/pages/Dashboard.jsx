@@ -33,6 +33,8 @@ import {
 } from 'recharts';
 import { api } from '../services/api';
 import { useAuth } from '../context/AuthContext';
+import { motion } from 'framer-motion';
+import CyberBentoCard from '../components/CyberBentoCard';
 
 export default function Dashboard({ onOpenUpload, onOpenVerify }) {
   const { user, can } = useAuth();
@@ -131,6 +133,9 @@ export default function Dashboard({ onOpenUpload, onOpenVerify }) {
         className="hero-command-card relative overflow-hidden bg-gradient-to-r from-[#0B132B] via-[#0F1C3F] to-[#0A1628] border border-[#1E293B] rounded-3xl p-6 lg:p-7 shadow-2xl !text-white"
         data-theme-surface="dark"
       >
+        {/* Sovereign National Tricolour Micro Accent Strip */}
+        <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-[#FF9933] via-white to-[#138808] opacity-90 shadow-[0_0_8px_rgba(255,153,51,0.5)] pointer-events-none" />
+
         {/* Subtle grid pattern overlay */}
         <div className="absolute inset-0 bg-[radial-gradient(#38bdf8_1px,transparent_1px)] [background-size:24px_24px] opacity-15 pointer-events-none"></div>
 
@@ -159,6 +164,32 @@ export default function Dashboard({ onOpenUpload, onOpenVerify }) {
               National Crime Records Bureau • Digital Evidence Chain of Custody & Blockchain Verification
               Platform. All evidentiary operations are recorded to immutable forensic ledgers under FIPS 180-4.
             </p>
+          </div>
+
+          {/* Sovereign Authority Emblem Badge */}
+          <div className="hidden lg:flex items-center space-x-3.5 px-4 py-3 rounded-2xl bg-gradient-to-br from-[#0B1528]/95 via-[#0E1A35]/95 to-[#091122]/95 border border-amber-500/50 shadow-xl shadow-amber-950/40 backdrop-blur-md flex-shrink-0 group hover:border-amber-400 transition-all duration-300 ring-1 ring-white/10">
+            <div className="relative w-12 h-12 rounded-xl overflow-hidden border-2 border-amber-400/60 shadow-md shadow-amber-500/20 bg-slate-950 flex-shrink-0">
+              <img
+                src="/sovereign-emblem.jpg"
+                alt="State Emblem of India & Legislative Dome"
+                className="w-full h-full object-cover object-top scale-110 group-hover:scale-125 transition-transform duration-500"
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent pointer-events-none" />
+            </div>
+
+            <div className="text-left space-y-0.5">
+              <div className="flex items-center space-x-1.5">
+                <span className="text-[11px] font-bold text-amber-300 tracking-wider font-mono">सत्यमेव जयते</span>
+                <span className="text-slate-600">•</span>
+                <span className="text-[9px] font-semibold text-emerald-400 bg-emerald-950/60 px-1.5 py-0.2 rounded border border-emerald-500/30">MHA VAULT</span>
+              </div>
+              <div className="text-xs font-bold text-white tracking-tight leading-none">
+                Govt. of India Certified
+              </div>
+              <div className="text-[10px] text-slate-300 font-mono">
+                Section 63 BNSS Admissible
+              </div>
+            </div>
           </div>
 
           {/* Rapid Action Cluster */}
@@ -192,117 +223,116 @@ export default function Dashboard({ onOpenUpload, onOpenVerify }) {
         </div>
       </div>
 
-      {/* 4 Interactive KPI Metric Cards */}
+      {/* 4 Interactive Cybernetic Bento KPI Metric Cards */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
         {/* Total Cases */}
-        <Link
-          to="/cases"
-          className="cyber-card rounded-2xl p-5 block group relative overflow-hidden"
-        >
-          <div className="flex justify-between items-start">
-            <span className="text-xs font-bold text-slate-400 uppercase tracking-wider">
-              Investigation Cases
-            </span>
-            <div className="p-2.5 rounded-xl bg-cyan-950/70 border border-cyan-500/30 text-cyan-400 group-hover:scale-110 transition-transform shadow-sm">
-              <FolderLock className="w-5 h-5" />
+        <Link to="/cases" className="block focus:outline-none">
+          <CyberBentoCard glowColor="cyan" className="h-full">
+            <div className="flex justify-between items-start">
+              <span className="text-xs font-bold text-slate-400 uppercase tracking-wider">
+                Investigation Cases
+              </span>
+              <div className="p-2.5 rounded-xl bg-cyan-950/70 border border-cyan-500/30 text-cyan-400 shadow-sm group-hover:scale-110 group-hover:shadow-[0_0_12px_rgba(6,182,212,0.4)] transition-all">
+                <FolderLock className="w-5 h-5" />
+              </div>
             </div>
-          </div>
-          <div className="text-3xl font-extrabold text-white mt-3 font-mono">
-            {stats.totalCases}
-          </div>
-          <div className="text-xs text-emerald-400 mt-2 flex items-center space-x-1.5 font-medium">
-            <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
-            <span>{stats.activeCases} Active Under Investigation</span>
-          </div>
+            <div className="text-3xl font-extrabold text-slate-900 dark:text-white mt-3 font-mono tracking-tight">
+              {stats.totalCases}
+            </div>
+            <div className="text-xs text-emerald-500 dark:text-emerald-400 mt-2 flex items-center space-x-1.5 font-medium">
+              <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+              <span>{stats.activeCases} Active Under Investigation</span>
+            </div>
+          </CyberBentoCard>
         </Link>
 
         {/* Total Custody Documents */}
-        <Link
-          to="/documents"
-          className="cyber-card rounded-2xl p-5 block group relative overflow-hidden"
-        >
-          <div className="flex justify-between items-start">
-            <span className="text-xs font-bold text-slate-400 uppercase tracking-wider">
-              Custody Documents
-            </span>
-            <div className="p-2.5 rounded-xl bg-blue-950/70 border border-blue-500/30 text-blue-400 group-hover:scale-110 transition-transform shadow-sm">
-              <FileText className="w-5 h-5" />
+        <Link to="/documents" className="block focus:outline-none">
+          <CyberBentoCard glowColor="emerald" className="h-full">
+            <div className="flex justify-between items-start">
+              <span className="text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider">
+                Custody Documents
+              </span>
+              <div className="p-2.5 rounded-xl bg-emerald-950/70 border border-emerald-500/30 text-emerald-400 shadow-sm group-hover:scale-110 group-hover:shadow-[0_0_12px_rgba(16,185,129,0.4)] transition-all">
+                <FileText className="w-5 h-5" />
+              </div>
             </div>
-          </div>
-          <div className="text-3xl font-extrabold text-white mt-3 font-mono">
-            {stats.totalDocuments}
-          </div>
-          <div className="text-xs text-cyan-400 mt-2 flex items-center space-x-1.5 font-medium">
-            <Check className="w-3.5 h-3.5" />
-            <span>100% Cryptographic Ledger Anchored</span>
-          </div>
+            <div className="text-3xl font-extrabold text-slate-900 dark:text-white mt-3 font-mono tracking-tight">
+              {stats.totalDocuments}
+            </div>
+            <div className="text-xs text-cyan-600 dark:text-cyan-400 mt-2 flex items-center space-x-1.5 font-medium">
+              <Check className="w-3.5 h-3.5" />
+              <span>100% Cryptographic Ledger Anchored</span>
+            </div>
+          </CyberBentoCard>
         </Link>
 
         {/* Blockchain Integrity Verification */}
-        <Link
-          to="/integrity"
-          className="cyber-card rounded-2xl p-5 block group relative overflow-hidden border-emerald-500/30"
-        >
-          <div className="flex justify-between items-start">
-            <span className="text-xs font-bold text-slate-400 uppercase tracking-wider">
-              Integrity Status
-            </span>
-            <div className="p-2.5 rounded-xl bg-emerald-950/70 border border-emerald-500/40 text-emerald-400 group-hover:scale-110 transition-transform shadow-sm">
-              <ShieldCheck className="w-5 h-5" />
+        <Link to="/integrity" className="block focus:outline-none">
+          <CyberBentoCard glowColor="purple" className="h-full">
+            <div className="flex justify-between items-start">
+              <span className="text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider">
+                Integrity Status
+              </span>
+              <div className="p-2.5 rounded-xl bg-purple-950/70 border border-purple-500/40 text-purple-400 shadow-sm group-hover:scale-110 group-hover:shadow-[0_0_12px_rgba(168,85,247,0.4)] transition-all">
+                <ShieldCheck className="w-5 h-5" />
+              </div>
             </div>
-          </div>
-          <div className="text-2xl font-extrabold text-emerald-400 mt-3 font-mono flex items-center space-x-2">
-            <span>VERIFIED</span>
-          </div>
-          <div className="text-xs text-slate-400 mt-2 flex items-center space-x-1.5 font-medium">
-            <span className="w-2 h-2 rounded-full bg-emerald-400"></span>
-            <span>Zero-Bit Tamper Detected • FIPS 180-4</span>
-          </div>
+            <div className="text-2xl font-extrabold text-emerald-500 dark:text-emerald-400 mt-3 font-mono flex items-center space-x-2">
+              <span className="shimmer-text">VERIFIED</span>
+            </div>
+            <div className="text-xs text-slate-500 dark:text-slate-400 mt-2 flex items-center space-x-1.5 font-medium">
+              <span className="w-2 h-2 rounded-full bg-emerald-400"></span>
+              <span>Zero-Bit Tamper Detected • FIPS 180-4</span>
+            </div>
+          </CyberBentoCard>
         </Link>
 
         {/* Cyber Threat Risk Score */}
-        <Link
-          to="/security"
-          className="cyber-card rounded-2xl p-5 block group relative overflow-hidden hover:border-purple-500/50"
-        >
-          <div className="flex justify-between items-start">
-            <span className="text-xs font-bold text-slate-400 uppercase tracking-wider group-hover:text-purple-300">
-              Cyber Threat Risk
-            </span>
-            <div className="p-2.5 rounded-xl bg-purple-950/70 border border-purple-500/30 text-purple-400 group-hover:scale-110 transition-transform shadow-sm">
-              <ShieldAlert className="w-5 h-5" />
+        <Link to="/security" className="block focus:outline-none">
+          <CyberBentoCard
+            glowColor={stats.riskScore >= 50 ? 'crimson' : stats.riskScore >= 25 ? 'amber' : 'emerald'}
+            className="h-full"
+          >
+            <div className="flex justify-between items-start">
+              <span className="text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider group-hover:text-purple-300">
+                Cyber Threat Risk
+              </span>
+              <div className="p-2.5 rounded-xl bg-purple-950/70 border border-purple-500/30 text-purple-400 shadow-sm group-hover:scale-110 group-hover:shadow-[0_0_12px_rgba(168,85,247,0.4)] transition-all">
+                <ShieldAlert className="w-5 h-5" />
+              </div>
             </div>
-          </div>
-          <div className="text-3xl font-extrabold text-white mt-3 font-mono flex items-baseline space-x-2">
-            <span>{stats.riskScore}</span>
-            <span className="text-xs text-slate-500 font-normal">/ 100</span>
-          </div>
-          <div className="text-xs mt-2 flex items-center justify-between font-medium">
-            <span
-              className={`font-bold ${
-                stats.riskScore >= 50 ? 'text-rose-400' : 'text-emerald-400'
-              }`}
-            >
-              {stats.riskLevel}
-            </span>
-            <span className="text-[11px] text-purple-400 font-semibold group-hover:translate-x-1 transition-transform flex items-center">
-              Threat Hub →
-            </span>
-          </div>
+            <div className="text-3xl font-extrabold text-slate-900 dark:text-white mt-3 font-mono flex items-baseline space-x-2">
+              <span>{stats.riskScore}</span>
+              <span className="text-xs text-slate-500 font-normal">/ 100</span>
+            </div>
+            <div className="text-xs mt-2 flex items-center justify-between font-medium">
+              <span
+                className={`font-bold ${
+                  stats.riskScore >= 50 ? 'text-rose-400' : 'text-emerald-400'
+                }`}
+              >
+                {stats.riskLevel}
+              </span>
+              <span className="text-[11px] text-purple-400 font-semibold group-hover:translate-x-1 transition-transform flex items-center">
+                Threat Hub →
+              </span>
+            </div>
+          </CyberBentoCard>
         </Link>
       </div>
 
       {/* Analytics Charts Row */}
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
         {/* Ingestion & Verification Velocity Chart */}
-        <div className="lg:col-span-8 cyber-card rounded-2xl p-5 lg:p-6 shadow-sm space-y-4">
+        <CyberBentoCard glowColor="cyan" className="lg:col-span-8 shadow-sm space-y-4">
           <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
             <div>
-              <h2 className="text-sm font-bold text-white flex items-center space-x-2">
-                <Activity className="w-4 h-4 text-cyan-400" />
+              <h2 className="text-sm font-bold text-slate-900 dark:text-white flex items-center space-x-2">
+                <Activity className="w-4 h-4 text-cyan-500 dark:text-cyan-400" />
                 <span>Document Ingestion & Verification Velocity</span>
               </h2>
-              <p className="text-xs text-slate-400 mt-0.5">
+              <p className="text-xs text-slate-500 dark:text-slate-400 mt-0.5">
                 7-day rolling window of SHA-256 fingerprint creation and tamper assertions
               </p>
             </div>
@@ -310,11 +340,11 @@ export default function Dashboard({ onOpenUpload, onOpenVerify }) {
             <div className="flex items-center space-x-4 text-xs font-mono">
               <div className="flex items-center space-x-1.5">
                 <span className="w-2.5 h-2.5 rounded-full bg-cyan-400 shadow-[0_0_6px_rgba(6,182,212,0.8)]"></span>
-                <span className="text-slate-300 font-medium">Ingested</span>
+                <span className="text-slate-600 dark:text-slate-300 font-medium">Ingested</span>
               </div>
               <div className="flex items-center space-x-1.5">
                 <span className="w-2.5 h-2.5 rounded-full bg-blue-500 shadow-[0_0_6px_rgba(59,130,246,0.8)]"></span>
-                <span className="text-slate-300 font-medium">Verified</span>
+                <span className="text-slate-600 dark:text-slate-300 font-medium">Verified</span>
               </div>
             </div>
           </div>
@@ -364,16 +394,16 @@ export default function Dashboard({ onOpenUpload, onOpenVerify }) {
               </AreaChart>
             </ResponsiveContainer>
           </div>
-        </div>
+        </CyberBentoCard>
 
         {/* Category Breakdown */}
-        <div className="lg:col-span-4 cyber-card rounded-2xl p-5 lg:p-6 shadow-sm flex flex-col justify-between space-y-4">
+        <CyberBentoCard glowColor="purple" className="lg:col-span-4 shadow-sm flex flex-col justify-between space-y-4">
           <div>
-            <h2 className="text-sm font-bold text-white flex items-center space-x-2">
-              <Layers className="w-4 h-4 text-purple-400" />
+            <h2 className="text-sm font-bold text-slate-900 dark:text-white flex items-center space-x-2">
+              <Layers className="w-4 h-4 text-purple-500 dark:text-purple-400" />
               <span>Evidence Sensitivity Distribution</span>
             </h2>
-            <p className="text-xs text-slate-400 mt-0.5">Categorization across legal classifications</p>
+            <p className="text-xs text-slate-500 dark:text-slate-400 mt-0.5">Categorization across legal classifications</p>
           </div>
 
           <div className="h-48 w-full">
@@ -406,36 +436,36 @@ export default function Dashboard({ onOpenUpload, onOpenVerify }) {
             </ResponsiveContainer>
           </div>
 
-          <div className="p-3 bg-slate-900/80 rounded-xl border border-slate-800 text-[11px] text-slate-400 space-y-1.5">
+          <div className="p-3 bg-slate-100 dark:bg-slate-900/80 rounded-xl border border-slate-200 dark:border-slate-800 text-[11px] text-slate-500 dark:text-slate-400 space-y-1.5">
             <div className="flex justify-between items-center">
               <span>Cryptographic Standard:</span>
-              <span className="text-emerald-400 font-mono font-semibold">FIPS 180-4 SHA-256</span>
+              <span className="text-emerald-600 dark:text-emerald-400 font-mono font-semibold">FIPS 180-4 SHA-256</span>
             </div>
             <div className="flex justify-between items-center">
               <span>Chain Continuity:</span>
-              <span className="text-cyan-400 font-mono font-semibold">100% Unbroken</span>
+              <span className="text-cyan-600 dark:text-cyan-400 font-mono font-semibold">100% Unbroken</span>
             </div>
           </div>
-        </div>
+        </CyberBentoCard>
       </div>
 
       {/* Evidentiary Submissions Table & Activity Feed */}
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
         {/* Ingested Documents Table */}
-        <div className="lg:col-span-8 cyber-card rounded-2xl shadow-sm overflow-hidden flex flex-col justify-between">
-          <div className="p-5 border-b border-[#1E293B] flex items-center justify-between">
+        <CyberBentoCard glowColor="cyan" className="lg:col-span-8 shadow-sm !p-0 overflow-hidden flex flex-col justify-between">
+          <div className="p-5 border-b border-slate-200 dark:border-[#1E293B] flex items-center justify-between">
             <div>
-              <h2 className="text-sm font-bold text-white flex items-center space-x-2">
-                <FileCheck2 className="w-4 h-4 text-cyan-400" />
+              <h2 className="text-sm font-bold text-slate-900 dark:text-white flex items-center space-x-2">
+                <FileCheck2 className="w-4 h-4 text-cyan-500 dark:text-cyan-400" />
                 <span>Recent Evidentiary Records</span>
               </h2>
-              <p className="text-xs text-slate-400 mt-0.5">
+              <p className="text-xs text-slate-500 dark:text-slate-400 mt-0.5">
                 Custody documents anchored with immutable SHA-256 fingerprints
               </p>
             </div>
             <Link
               to="/documents"
-              className="text-xs text-cyan-400 hover:text-cyan-300 flex items-center space-x-1 font-semibold group"
+              className="text-xs text-cyan-600 dark:text-cyan-400 hover:text-cyan-500 dark:hover:text-cyan-300 flex items-center space-x-1 font-semibold group"
             >
               <span>View All</span>
               <ArrowUpRight className="w-3.5 h-3.5 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
@@ -444,7 +474,7 @@ export default function Dashboard({ onOpenUpload, onOpenVerify }) {
 
           <div className="overflow-x-auto flex-1">
             <table className="w-full text-left text-xs">
-              <thead className="bg-[#0B1120] text-slate-400 font-semibold border-b border-slate-800">
+              <thead className="bg-slate-50 dark:bg-[#0B1120] text-slate-600 dark:text-slate-400 font-semibold border-b border-slate-200 dark:border-slate-800">
                 <tr>
                   <th className="p-3.5">Document ID</th>
                   <th className="p-3.5">Title & Case</th>
@@ -453,19 +483,19 @@ export default function Dashboard({ onOpenUpload, onOpenVerify }) {
                   <th className="p-3.5 text-right">Inspect</th>
                 </tr>
               </thead>
-              <tbody className="divide-y divide-slate-800/80">
+              <tbody className="divide-y divide-slate-200 dark:divide-slate-800/80">
                 {recentDocs.map((doc) => (
-                  <tr key={doc.id} className="hover:bg-slate-800/40 transition">
-                    <td className="p-3.5 font-mono text-cyan-400 font-bold whitespace-nowrap">
+                  <tr key={doc.id} className="hover:bg-slate-100 dark:hover:bg-slate-800/40 transition">
+                    <td className="p-3.5 font-mono text-cyan-600 dark:text-cyan-400 font-bold whitespace-nowrap">
                       {doc.id}
                     </td>
 
                     <td className="p-3.5">
-                      <div className="font-semibold text-white max-w-xs truncate">{doc.title}</div>
-                      <div className="text-[10px] text-slate-400 font-mono flex items-center space-x-1 mt-0.5">
+                      <div className="font-semibold text-slate-900 dark:text-white max-w-xs truncate">{doc.title}</div>
+                      <div className="text-[10px] text-slate-500 dark:text-slate-400 font-mono flex items-center space-x-1 mt-0.5">
                         <span>Case: {doc.case?.id || doc.caseId}</span>
                         <span>•</span>
-                        <span className="text-slate-500">{doc.category}</span>
+                        <span className="text-slate-400 dark:text-slate-500">{doc.category}</span>
                       </div>
                     </td>
 
@@ -521,21 +551,21 @@ export default function Dashboard({ onOpenUpload, onOpenVerify }) {
               </tbody>
             </table>
           </div>
-        </div>
+        </CyberBentoCard>
 
         {/* Live Immutable Forensic Audit Stream */}
-        <div className="lg:col-span-4 cyber-card rounded-2xl shadow-sm overflow-hidden flex flex-col justify-between">
-          <div className="p-5 border-b border-[#1E293B] flex items-center justify-between">
+        <CyberBentoCard glowColor="emerald" className="lg:col-span-4 shadow-sm !p-0 overflow-hidden flex flex-col justify-between">
+          <div className="p-5 border-b border-slate-200 dark:border-[#1E293B] flex items-center justify-between">
             <div>
-              <h2 className="text-sm font-bold text-white flex items-center space-x-2">
-                <Activity className="w-4 h-4 text-cyan-400" />
+              <h2 className="text-sm font-bold text-slate-900 dark:text-white flex items-center space-x-2">
+                <Activity className="w-4 h-4 text-cyan-500 dark:text-cyan-400" />
                 <span>Forensic Chain Stream</span>
               </h2>
-              <p className="text-xs text-slate-400 mt-0.5">Real-time immutable activity log</p>
+              <p className="text-xs text-slate-500 dark:text-slate-400 mt-0.5">Real-time immutable activity log</p>
             </div>
             <Link
               to="/audit"
-              className="text-xs text-cyan-400 hover:text-cyan-300 flex items-center space-x-1 font-semibold group"
+              className="text-xs text-cyan-600 dark:text-cyan-400 hover:text-cyan-500 dark:hover:text-cyan-300 flex items-center space-x-1 font-semibold group"
             >
               <span>Audit Hub</span>
               <ArrowUpRight className="w-3.5 h-3.5 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
@@ -591,7 +621,7 @@ export default function Dashboard({ onOpenUpload, onOpenVerify }) {
               <ArrowUpRight className="w-3.5 h-3.5" />
             </Link>
           </div>
-        </div>
+        </CyberBentoCard>
       </div>
     </div>
   );

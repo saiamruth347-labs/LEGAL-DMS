@@ -11,9 +11,14 @@ import {
   Loader2,
   Activity,
   Check,
+  Radio,
+  Flame,
+  Shield,
 } from 'lucide-react';
+import { motion } from 'framer-motion';
 import { api } from '../services/api';
 import { useAuth } from '../context/AuthContext';
+import CyberBentoCard from '../components/CyberBentoCard';
 
 export default function SecurityCenter() {
   const { user, can } = useAuth();
@@ -60,32 +65,42 @@ export default function SecurityCenter() {
     }
   };
 
+  const riskScore = overview?.riskScore || 12;
+  const circumference = 2 * Math.PI * 28; // r=28
+  const strokeDashoffset = circumference - (riskScore / 100) * circumference;
+
   return (
     <div className="space-y-6 animate-in fade-in duration-300">
       {/* Header */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
           <div className="flex items-center space-x-2">
-            <span className="text-xs font-mono uppercase tracking-wider text-rose-400 font-bold">
+            <span className="text-xs font-mono uppercase tracking-wider text-rose-400 font-bold flex items-center gap-1.5">
+              <span className="w-2 h-2 rounded-full bg-rose-500 animate-ping inline-block" />
               NATIONAL CYBER THREAT MONITORING
             </span>
-            <span className="text-[10px] bg-rose-950 text-rose-300 px-2 py-0.5 rounded-full font-mono border border-rose-500/30">
-              LIVE DEFENSE ACTIVE
+            <span className="text-[10px] bg-rose-950/80 text-rose-300 px-2.5 py-0.5 rounded-full font-mono border border-rose-500/40">
+              C-DOC ACTIVE
+            </span>
+            <span className="text-[10px] bg-cyan-950/80 text-cyan-300 px-2.5 py-0.5 rounded-full font-mono border border-cyan-500/40">
+              5FA ENFORCED
             </span>
           </div>
-          <h1 className="text-2xl font-extrabold text-white mt-1">Cybersecurity & Threat Center</h1>
+          <h1 className="text-2xl font-extrabold text-white mt-1.5">Cybersecurity & Threat Operations</h1>
           <p className="text-xs text-slate-400">
-            Real-time brute-force mitigation, unauthorized access tracking, and cryptographic audit monitoring
+            Real-time brute-force mitigation, IP geofencing, passkey attestation, and cryptographic anomaly response
           </p>
         </div>
 
-        <button
+        <motion.button
+          whileHover={{ scale: 1.02 }}
+          whileTap={{ scale: 0.98 }}
           onClick={loadSecurityData}
-          className="p-2.5 px-4 rounded-xl bg-slate-900 hover:bg-slate-800 border border-slate-700/80 text-slate-300 text-xs font-bold flex items-center space-x-2 transition shadow-sm"
+          className="p-2.5 px-4 rounded-xl bg-slate-900/90 hover:bg-slate-800 border border-slate-700/80 text-slate-300 text-xs font-bold flex items-center space-x-2 transition shadow-sm"
         >
           <RefreshCw className="w-3.5 h-3.5 text-cyan-400" />
           <span>Refresh Threat Feed</span>
-        </button>
+        </motion.button>
       </div>
 
       {message && (
@@ -95,53 +110,89 @@ export default function SecurityCenter() {
         </div>
       )}
 
-      {/* Threat Metrics & Risk Score Meter */}
+      {/* Threat Metrics & Risk Score Bento Cards */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
         {/* Risk Score Meter */}
-        <div className="cyber-card rounded-2xl p-5 shadow-sm space-y-2 border-cyan-500/30">
-          <span className="text-xs font-bold text-slate-400 uppercase tracking-wider">Security Risk Score</span>
-          <div className="flex items-baseline space-x-2">
-            <span className="text-3xl font-extrabold text-cyan-400 font-mono">{overview?.riskScore || 12}</span>
-            <span className="text-xs text-slate-500 font-mono">/ 100</span>
+        <CyberBentoCard glow="cyan" className="p-5 flex items-center justify-between">
+          <div className="space-y-1.5">
+            <span className="text-xs font-bold text-slate-400 uppercase tracking-wider block">
+              Security Risk Score
+            </span>
+            <div className="flex items-baseline space-x-1.5">
+              <span className="text-3xl font-extrabold text-cyan-400 font-mono">{riskScore}</span>
+              <span className="text-xs text-slate-500 font-mono">/ 100</span>
+            </div>
+            <div className="text-xs font-bold text-emerald-400 flex items-center gap-1">
+              <ShieldCheck className="w-3.5 h-3.5" />
+              <span>{overview?.riskLevel || 'LOW RISK'}</span>
+            </div>
           </div>
-          <div className="text-xs font-bold text-emerald-400">
-            {overview?.riskLevel || 'LOW RISK'}
+
+          {/* Circular SVG Gauge */}
+          <div className="relative w-16 h-16 flex items-center justify-center flex-shrink-0">
+            <svg className="w-16 h-16 transform -rotate-90">
+              <circle
+                cx="32"
+                cy="32"
+                r="26"
+                stroke="currentColor"
+                strokeWidth="5"
+                fill="transparent"
+                className="text-slate-800"
+              />
+              <circle
+                cx="32"
+                cy="32"
+                r="26"
+                stroke="currentColor"
+                strokeWidth="5"
+                fill="transparent"
+                strokeDasharray={2 * Math.PI * 26}
+                strokeDashoffset={2 * Math.PI * 26 * (1 - riskScore / 100)}
+                strokeLinecap="round"
+                className="text-cyan-400 transition-all duration-1000 ease-out"
+              />
+            </svg>
+            <Shield className="w-5 h-5 text-cyan-400 absolute" />
           </div>
-        </div>
+        </CyberBentoCard>
 
         {/* Unresolved Threats */}
-        <div className="cyber-card rounded-2xl p-5 shadow-sm space-y-2 border-rose-500/20">
-          <span className="text-xs font-bold text-slate-400 uppercase tracking-wider">Active Threats</span>
+        <CyberBentoCard glow="crimson" className="p-5 space-y-2">
+          <div className="flex justify-between items-center">
+            <span className="text-xs font-bold text-slate-400 uppercase tracking-wider">Active Threats</span>
+            <span className="w-2.5 h-2.5 rounded-full bg-rose-500 animate-ping" />
+          </div>
           <div className="text-3xl font-extrabold text-rose-400 font-mono">
             {overview?.totalUnresolvedThreats || 0}
           </div>
-          <div className="text-xs text-slate-400 font-medium">Requiring supervisory action</div>
-        </div>
+          <div className="text-xs text-rose-600 dark:text-rose-300 font-semibold">Requiring supervisory action</div>
+        </CyberBentoCard>
 
         {/* Failed Login Attempts */}
-        <div className="cyber-card rounded-2xl p-5 shadow-sm space-y-2">
-          <span className="text-xs font-bold text-slate-400 uppercase tracking-wider">Failed Logins Monitored</span>
-          <div className="text-3xl font-extrabold text-amber-400 font-mono">
+        <CyberBentoCard glow="amber" className="p-5 space-y-2">
+          <span className="text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider">Failed Logins Monitored</span>
+          <div className="text-3xl font-extrabold text-amber-500 dark:text-amber-400 font-mono">
             {overview?.failedLoginsCount || 0}
           </div>
-          <div className="text-xs text-slate-400 font-medium">Locked after 5 attempts</div>
-        </div>
+          <div className="text-xs text-amber-700 dark:text-amber-300 font-semibold">Locked after 5 attempts</div>
+        </CyberBentoCard>
 
         {/* Account Lockouts */}
-        <div className="cyber-card rounded-2xl p-5 shadow-sm space-y-2">
-          <span className="text-xs font-bold text-slate-400 uppercase tracking-wider">Locked Consoles</span>
-          <div className="text-3xl font-extrabold text-white font-mono">
+        <CyberBentoCard glow="purple" className="p-5 space-y-2">
+          <span className="text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider">Locked Consoles</span>
+          <div className="text-3xl font-extrabold text-purple-600 dark:text-purple-300 font-mono">
             {overview?.lockedUsersCount || 0}
           </div>
-          <div className="text-xs text-emerald-400 font-medium">Lockout auto-expires in 15m</div>
-        </div>
+          <div className="text-xs text-purple-700 dark:text-purple-300 font-semibold">Lockout auto-expires in 15m</div>
+        </CyberBentoCard>
       </div>
 
       {/* AI Anomaly Insights Banner */}
       {overview?.anomalies && overview.anomalies.length > 0 && (
-        <div className="bg-rose-950/40 border border-rose-500/50 rounded-2xl p-5 space-y-2.5 shadow-glow-rose">
+        <CyberBentoCard glow="crimson" className="p-5 space-y-2.5">
           <div className="flex items-center space-x-2 text-rose-300 text-xs font-bold uppercase tracking-wider">
-            <ShieldAlert className="w-4 h-4 text-rose-400" />
+            <ShieldAlert className="w-4 h-4 text-rose-400 animate-bounce" />
             <span>Automated Behavioral Anomaly Alerts</span>
           </div>
           <div className="space-y-1.5">
@@ -152,11 +203,11 @@ export default function SecurityCenter() {
               </div>
             ))}
           </div>
-        </div>
+        </CyberBentoCard>
       )}
 
       {/* Incident Log Table */}
-      <div className="cyber-card rounded-2xl shadow-sm overflow-hidden space-y-3">
+      <CyberBentoCard glow="crimson" className="p-0 overflow-hidden space-y-0">
         <div className="p-5 border-b border-[#1E293B] flex items-center justify-between">
           <div>
             <h2 className="text-sm font-bold text-white flex items-center space-x-2">
@@ -263,7 +314,7 @@ export default function SecurityCenter() {
             </table>
           </div>
         )}
-      </div>
+      </CyberBentoCard>
     </div>
   );
 }

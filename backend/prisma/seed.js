@@ -77,7 +77,7 @@ async function main() {
   const adminUser = await prisma.user.create({
     data: {
       email: 'admin@ncrb-demo.gov',
-      fullName: 'Dr. Rajesh Verma',
+      fullName: 'IPS Rajiv Ranjan (Joint Director)',
       badgeNumber: 'NCRB-ADM-001',
       role: 'SUPER_ADMIN',
       passwordHash: defaultPasswordHash,
@@ -88,7 +88,7 @@ async function main() {
   const officerUser = await prisma.user.create({
     data: {
       email: 'officer@ncrb-demo.gov',
-      fullName: 'Insp. Vikram Rathore',
+      fullName: 'Insp. Vikramaditya Chauhan',
       badgeNumber: 'NCRB-INV-104',
       role: 'INVESTIGATING_OFFICER',
       passwordHash: defaultPasswordHash,
@@ -99,7 +99,7 @@ async function main() {
   const legalUser = await prisma.user.create({
     data: {
       email: 'legal@ncrb-demo.gov',
-      fullName: 'Adv. Meera Sen',
+      fullName: 'Adv. Meenakshi Sundaram',
       badgeNumber: 'NCRB-LEG-202',
       role: 'LEGAL_OFFICER',
       passwordHash: defaultPasswordHash,
@@ -110,7 +110,7 @@ async function main() {
   const reviewerUser = await prisma.user.create({
     data: {
       email: 'reviewer@ncrb-demo.gov',
-      fullName: 'Dy. SP Anita Deshmukh',
+      fullName: 'Dy. SP Anita Deshmukh, SPS',
       badgeNumber: 'NCRB-REV-305',
       role: 'REVIEWER',
       passwordHash: defaultPasswordHash,
@@ -121,7 +121,7 @@ async function main() {
   const auditorUser = await prisma.user.create({
     data: {
       email: 'auditor@ncrb-demo.gov',
-      fullName: 'Auditor R. K. Iyer',
+      fullName: 'Shri R. K. Swaminathan (Auditor)',
       badgeNumber: 'NCRB-AUD-401',
       role: 'AUDITOR',
       passwordHash: defaultPasswordHash,
@@ -251,7 +251,7 @@ async function main() {
         summary: `Verified official legal custody record for ${title} under ${caseId}. Anchored with cryptographic hash on NCRB ledger.`,
         extractedEntities: JSON.stringify({
           sections: ['BNS Sec 74', 'IT Act Sec 66D', 'BNSS Sec 173'],
-          people: ['Insp. Vikram Rathore', 'Complainant Priya Sen', 'Suspect Karan Malhotra'],
+          people: ['Insp. Vikramaditya Chauhan', 'Complainant Priya Sen', 'Suspect Karan Malhotra'],
           locations: ['NCR Cyber Cell New Delhi', 'Dwarka Sector 14'],
           dates: [date],
         }),
@@ -360,7 +360,7 @@ ACTS & SECTIONS:
 BRIEF FACTS OF COMPLAINT:
 Complainant states she downloaded the app upon receiving unsolicited SMS. Application demanded invasive device permissions including photo gallery and contact list access. Within 48 hours, altered morphed photographs were transmitted to family contacts along with extortion demands for INR 3,50,000.
 
-Investigating Officer: Insp. Vikram Rathore (Badge: NCRB-INV-104)
+Investigating Officer: Insp. Vikramaditya Chauhan (Badge: NCRB-INV-104)
 Digital Custody Anchor: SHA-256 Registered`,
     uploadedBy: officerUser,
     date: '2026-08-12T12:00:00Z',
@@ -378,7 +378,7 @@ Digital Custody Anchor: SHA-256 Registered`,
 DEPOSITION UNDER SECTION 180 BHARATIYA NAGARIK SURAKSHA SANHITA (BNSS)
 
 Statement of Shri S. K. Nambiar, Branch Manager, State Apex Bank, Connaught Place Branch.
-Recorded on 14 August 2026 by Insp. Vikram Rathore in Case CASE-2026-001.
+Recorded on 14 August 2026 by Insp. Vikramaditya Chauhan in Case CASE-2026-001.
 
 STATEMENT:
 "I am producing official server transaction logs regarding mule account #40918230018 maintained in the name of M/s Delta Horizon Logistics. Between August 10 and August 13, 2026, over 42 Micro-UPI deposits totaling INR 18.4 Lakhs were received and immediately transferred via RTGS to an offshore wallet gateway. Account frozen upon receipt of Section 91 notice."
@@ -567,7 +567,7 @@ VERDICT: Spliced AI-generated deepfake media designed for defamation.`,
     data: {
       eventType: 'UNAUTHORIZED_ACCESS_ATTEMPT',
       severity: 'HIGH',
-      description: `User Auditor R. K. Iyer attempted access to RESTRICTED file ${doc4.id} without prior clearance.`,
+      description: `User Shri R. K. Swaminathan (Auditor) attempted access to RESTRICTED file ${doc4.id} without prior clearance.`,
       userId: auditorUser.id,
       userName: auditorUser.fullName,
       ipAddress: '10.24.18.92',
@@ -598,7 +598,7 @@ VERDICT: Spliced AI-generated deepfake media designed for defamation.`,
     data: {
       userId: reviewerUser.id,
       title: 'New Access Request Pending',
-      message: 'Adv. Meera Sen has requested clearance for RESTRICTED document DOC-2026-000184.',
+      message: 'Adv. Meenakshi Sundaram has requested clearance for RESTRICTED document DOC-2026-000184.',
       type: 'ACCESS',
       isRead: false,
       linkUrl: '/access-requests',

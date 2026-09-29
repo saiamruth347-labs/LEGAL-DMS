@@ -190,7 +190,16 @@ export default function DocumentDetails() {
   }
 
   const latestLedgerRecord = document.integrityRecords?.[0];
-  const parsedEntities = document.extractedEntities ? JSON.parse(document.extractedEntities) : null;
+  let parsedEntities = null;
+  if (document.extractedEntities) {
+    if (typeof document.extractedEntities === 'object') {
+      parsedEntities = document.extractedEntities;
+    } else {
+      try {
+        parsedEntities = JSON.parse(document.extractedEntities);
+      } catch (_) {}
+    }
+  }
 
   return (
     <div className="space-y-6">

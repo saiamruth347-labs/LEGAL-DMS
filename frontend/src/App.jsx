@@ -56,7 +56,18 @@ export default function App() {
   }
 
   return (
-    <div className="min-h-screen bg-[#090D16] text-[#F1F5F9] flex flex-col selection:bg-cyan-500 selection:text-black">
+    <div className="min-h-screen bg-[#EEF2F6] dark:bg-[#071525] text-slate-900 dark:text-[#F1F5F9] flex flex-col selection:bg-cyan-500 selection:text-black relative transition-colors duration-200">
+      {/* 3D Atmospheric Panoramic Monument & Security HUD Background */}
+      <div 
+        className="fixed inset-0 bg-cover bg-center pointer-events-none opacity-20 dark:opacity-25 scale-100 transition-all duration-700"
+        style={{
+          backgroundImage: "url('/gov-cyber-monument.jpg')",
+          filter: 'blur(1.5px)',
+        }}
+      />
+      <div className="fixed inset-0 bg-gradient-to-b from-sky-500/10 via-slate-200/60 to-slate-200/90 dark:from-[#0878D1]/15 dark:via-[#071525]/45 dark:to-[#071525]/80 pointer-events-none" />
+      <div className="fixed inset-0 bg-[radial-gradient(#0284C7_1px,transparent_1px)] dark:bg-[radial-gradient(#19C6E8_1px,transparent_1px)] [background-size:32px_32px] opacity-15 pointer-events-none" />
+
       {/* Top Government Cyber Header */}
       <Header onOpenNotifications={() => setIsNotificationsOpen(true)} />
 
@@ -119,6 +130,7 @@ export default function App() {
               <Route path="/audit" element={<AuditTrail />} />
               <Route path="/reports" element={<Reports />} />
               <Route path="/admin" element={<AdminPanel />} />
+              <Route path="/login" element={<Navigate to="/" replace />} />
               <Route path="*" element={<Navigate to="/" replace />} />
             </Routes>
           </div>

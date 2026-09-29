@@ -8,12 +8,12 @@ async function addGanesh() {
     const defaultDept = await prisma.department.findFirst();
     const passwordHash = await bcrypt.hash('Ganesh@2026', 10);
 
-    // Upsert Ganesh as Super Admin
+    // Upsert Chief Super Admin
     const user = await prisma.user.upsert({
       where: { email: 'ganesh@ncrb-demo.gov' },
       update: {
-        fullName: 'Director Ganesh Yelchuri',
-        badgeNumber: 'GANESH',
+        fullName: 'IPS Manoj Kumar Sharma (DG, NCRB)',
+        badgeNumber: 'NCRB-DG-001',
         role: 'SUPER_ADMIN',
         passwordHash: passwordHash,
         isActive: true,
@@ -22,8 +22,8 @@ async function addGanesh() {
       },
       create: {
         email: 'ganesh@ncrb-demo.gov',
-        fullName: 'Director Ganesh Yelchuri',
-        badgeNumber: 'GANESH',
+        fullName: 'IPS Manoj Kumar Sharma (DG, NCRB)',
+        badgeNumber: 'NCRB-DG-001',
         role: 'SUPER_ADMIN',
         passwordHash: passwordHash,
         departmentId: defaultDept ? defaultDept.id : null,

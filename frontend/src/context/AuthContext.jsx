@@ -3,11 +3,23 @@ import { api } from '../services/api';
 
 const AuthContext = createContext(null);
 
-export function AuthProvider({ children }) {
-  const [user, setUser] = useState(() => {
+function safeGetSavedUser() {
+  try {
     const saved = localStorage.getItem('ncrb_user');
-    return saved ? JSON.parse(saved) : null;
-  });
+    if (!saved || saved === 'undefined' || saved === 'null') return null;
+    return JSON.parse(saved);
+  } catch (e) {
+    console.warn('[AuthContext] Corrupt ncrb_user in storage, clearing:', e);
+    try {
+      localStorage.removeItem('ncrb_user');
+      localStorage.removeItem('ncrb_auth_token');
+    } catch (_) {}
+    return null;
+  }
+}
+
+export function AuthProvider({ children }) {
+  const [user, setUser] = useState(() => safeGetSavedUser());
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -21,18 +33,16 @@ export function AuthProvider({ children }) {
             localStorage.setItem('ncrb_user', JSON.stringify(res.user));
           }
         } catch (e) {
-          const saved = localStorage.getItem('ncrb_user');
-          if (saved) {
-            try {
-              setUser(JSON.parse(saved));
-            } catch {
-              setUser(null);
-            }
+          const savedUser = safeGetSavedUser();
+          if (savedUser) {
+            setUser(savedUser);
           } else {
             console.warn('Session expired or invalid token');
             setUser(null);
-            localStorage.removeItem('ncrb_auth_token');
-            localStorage.removeItem('ncrb_user');
+            try {
+              localStorage.removeItem('ncrb_auth_token');
+              localStorage.removeItem('ncrb_user');
+            } catch (_) {}
           }
         }
       }
@@ -42,8 +52,7 @@ export function AuthProvider({ children }) {
     checkAuth();
 
     const handleAuthChange = () => {
-      const saved = localStorage.getItem('ncrb_user');
-      setUser(saved ? JSON.parse(saved) : null);
+      setUser(safeGetSavedUser());
     };
 
     window.addEventListener('ncrb_auth_change', handleAuthChange);
@@ -66,12 +75,12 @@ export function AuthProvider({ children }) {
       const cleanBadge = (email || '').trim().toUpperCase();
 
       let matchedUser = null;
-      if (cleanEmail.includes('ganesh') || cleanBadge === 'GANESH') {
+      if (cleanEmail.includes('ganesh') || cleanEmail.includes('manoj') || cleanBadge === 'GANESH' || cleanBadge.includes('DG')) {
         matchedUser = {
           id: 'b5748c00-7041-4d15-8a93-019a343aec7b',
           email: 'ganesh@ncrb-demo.gov',
-          fullName: 'Director Ganesh Yelchuri',
-          badgeNumber: 'GANESH',
+          fullName: 'IPS Manoj Kumar Sharma (DG, NCRB)',
+          badgeNumber: 'NCRB-DG-001',
           role: 'SUPER_ADMIN',
           department: { name: 'Women Safety Division', code: 'NCRB-WSD' },
         };
@@ -79,7 +88,7 @@ export function AuthProvider({ children }) {
         matchedUser = {
           id: 'admin-001',
           email: 'admin@ncrb-demo.gov',
-          fullName: 'Dr. Rajesh Verma',
+          fullName: 'IPS Rajiv Ranjan (Joint Director)',
           badgeNumber: 'NCRB-ADM-001',
           role: 'SUPER_ADMIN',
           department: { name: 'Women Safety Division', code: 'NCRB-WSD' },
@@ -88,7 +97,7 @@ export function AuthProvider({ children }) {
         matchedUser = {
           id: 'officer-104',
           email: 'officer@ncrb-demo.gov',
-          fullName: 'Insp. Vikram Rathore',
+          fullName: 'Insp. Vikramaditya Chauhan',
           badgeNumber: 'NCRB-INV-104',
           role: 'INVESTIGATING_OFFICER',
           department: { name: 'Women Safety Division', code: 'NCRB-WSD' },
@@ -97,7 +106,7 @@ export function AuthProvider({ children }) {
         matchedUser = {
           id: 'legal-202',
           email: 'legal@ncrb-demo.gov',
-          fullName: 'Adv. Meera Sen',
+          fullName: 'Adv. Meenakshi Sundaram',
           badgeNumber: 'NCRB-LEG-202',
           role: 'LEGAL_OFFICER',
           department: { name: 'Prosecution & Legal Directorate', code: 'LEGAL-PROS' },
@@ -106,7 +115,7 @@ export function AuthProvider({ children }) {
         matchedUser = {
           id: 'reviewer-305',
           email: 'reviewer@ncrb-demo.gov',
-          fullName: 'Dy. SP Anita Deshmukh',
+          fullName: 'Dy. SP Anita Deshmukh, SPS',
           badgeNumber: 'NCRB-REV-305',
           role: 'REVIEWER',
           department: { name: 'Cyber Crime Investigation Cell', code: 'CYBER-CELL' },
@@ -115,7 +124,7 @@ export function AuthProvider({ children }) {
         matchedUser = {
           id: 'auditor-401',
           email: 'auditor@ncrb-demo.gov',
-          fullName: 'Auditor R. K. Iyer',
+          fullName: 'Shri R. K. Swaminathan (Auditor)',
           badgeNumber: 'NCRB-AUD-401',
           role: 'AUDITOR',
           department: { name: 'Women Safety Division', code: 'NCRB-WSD' },
@@ -149,15 +158,15 @@ export function AuthProvider({ children }) {
         SUPER_ADMIN: {
           id: 'b5748c00-7041-4d15-8a93-019a343aec7b',
           email: 'ganesh@ncrb-demo.gov',
-          fullName: 'Director Ganesh Yelchuri',
-          badgeNumber: 'GANESH',
+          fullName: 'IPS Manoj Kumar Sharma (DG, NCRB)',
+          badgeNumber: 'NCRB-DG-001',
           role: 'SUPER_ADMIN',
           department: { name: 'Women Safety Division', code: 'NCRB-WSD' },
         },
         INVESTIGATING_OFFICER: {
           id: 'officer-104',
           email: 'officer@ncrb-demo.gov',
-          fullName: 'Insp. Vikram Rathore',
+          fullName: 'Insp. Vikramaditya Chauhan',
           badgeNumber: 'NCRB-INV-104',
           role: 'INVESTIGATING_OFFICER',
           department: { name: 'Women Safety Division', code: 'NCRB-WSD' },
@@ -165,7 +174,7 @@ export function AuthProvider({ children }) {
         LEGAL_OFFICER: {
           id: 'legal-202',
           email: 'legal@ncrb-demo.gov',
-          fullName: 'Adv. Meera Sen',
+          fullName: 'Adv. Meenakshi Sundaram',
           badgeNumber: 'NCRB-LEG-202',
           role: 'LEGAL_OFFICER',
           department: { name: 'Prosecution & Legal Directorate', code: 'LEGAL-PROS' },
@@ -173,7 +182,7 @@ export function AuthProvider({ children }) {
         REVIEWER: {
           id: 'reviewer-305',
           email: 'reviewer@ncrb-demo.gov',
-          fullName: 'Dy. SP Anita Deshmukh',
+          fullName: 'Dy. SP Anita Deshmukh, SPS',
           badgeNumber: 'NCRB-REV-305',
           role: 'REVIEWER',
           department: { name: 'Cyber Crime Investigation Cell', code: 'CYBER-CELL' },
@@ -181,7 +190,7 @@ export function AuthProvider({ children }) {
         AUDITOR: {
           id: 'auditor-401',
           email: 'auditor@ncrb-demo.gov',
-          fullName: 'Auditor R. K. Iyer',
+          fullName: 'Shri R. K. Swaminathan (Auditor)',
           badgeNumber: 'NCRB-AUD-401',
           role: 'AUDITOR',
           department: { name: 'Women Safety Division', code: 'NCRB-WSD' },

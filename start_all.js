@@ -29,7 +29,12 @@ if (isProduction) {
     });
 
     child.stderr.on('data', (data) => {
-      process.stderr.write(`[${name} ERROR] ${data}`);
+      const text = data.toString();
+      if (text.includes('ExperimentalWarning') || text.includes('notice:') || text.includes('Warning:')) {
+        process.stderr.write(`[${name} INFO] ${text}`);
+      } else {
+        process.stderr.write(`[${name} ERROR] ${text}`);
+      }
     });
 
     child.on('close', (code) => {
@@ -39,7 +44,7 @@ if (isProduction) {
     return child;
   }
 
-  const backend = runService('BACKEND', 'node', ['src/server.js'], path.join(__dirname, 'backend'));
+  const backend = runService('BACKEND', 'node', ['--no-warnings', 'src/server.js'], path.join(__dirname, 'backend'));
   const frontend = runService('FRONTEND', 'npm', ['run', 'dev'], path.join(__dirname, 'frontend'));
 
   function cleanup() {

@@ -15,9 +15,13 @@ import {
   Copy,
   Check,
   FileCheck2,
+  Sparkles,
+  Layers,
 } from 'lucide-react';
+import { motion } from 'framer-motion';
 import { api } from '../services/api';
 import { useAuth } from '../context/AuthContext';
+import CyberBentoCard from '../components/CyberBentoCard';
 
 export default function Documents({ onOpenUpload, onOpenVerify }) {
   const { user, can } = useAuth();
@@ -68,14 +72,18 @@ export default function Documents({ onOpenUpload, onOpenVerify }) {
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
           <div className="flex items-center space-x-2">
-            <span className="text-xs font-mono uppercase tracking-wider text-cyan-400 font-bold">
+            <span className="text-xs font-mono uppercase tracking-wider text-cyan-400 font-bold flex items-center gap-1.5">
+              <span className="w-2 h-2 rounded-full bg-cyan-400 animate-ping inline-block" />
               NATIONAL EVIDENTIARY REPOSITORY
             </span>
-            <span className="text-[10px] bg-slate-800 text-slate-300 px-2 py-0.5 rounded-full font-mono border border-slate-700">
+            <span className="text-[10px] bg-cyan-950/80 text-cyan-300 px-2.5 py-0.5 rounded-full font-mono border border-cyan-500/30">
               RECORDS: {documents.length}
             </span>
+            <span className="text-[10px] bg-emerald-950/80 text-emerald-300 px-2.5 py-0.5 rounded-full font-mono border border-emerald-500/30">
+              TAMPER PROOF
+            </span>
           </div>
-          <h1 className="text-2xl font-extrabold text-white mt-1">Classified Document Vault</h1>
+          <h1 className="text-2xl font-extrabold text-white mt-1.5">Classified Document Vault</h1>
           <p className="text-xs text-slate-400">
             Cryptographically anchored investigation records, forensic reports, and court filings
           </p>
@@ -83,34 +91,38 @@ export default function Documents({ onOpenUpload, onOpenVerify }) {
 
         <div className="flex items-center space-x-3">
           {can('UPLOAD') && (
-            <button
+            <motion.button
+              whileHover={{ scale: 1.02 }}
+              whileTap={{ scale: 0.98 }}
               onClick={() => onOpenUpload && onOpenUpload()}
-              className="px-4 py-2.5 rounded-xl bg-gradient-to-r from-cyan-600 via-sky-600 to-blue-600 hover:from-cyan-500 hover:to-blue-500 text-white text-xs font-bold flex items-center space-x-2 shadow-lg shadow-cyan-900/30 hover:shadow-cyan-500/20 transition-all duration-200 active:scale-95"
+              className="px-4 py-2.5 rounded-xl bg-gradient-to-r from-cyan-600 via-sky-600 to-blue-600 hover:from-cyan-500 hover:to-blue-500 text-white text-xs font-bold flex items-center space-x-2 shadow-lg shadow-cyan-900/40 hover:shadow-cyan-500/20 transition-all duration-200 active:scale-95"
             >
               <Upload className="w-4 h-4" />
               <span>Ingest Document</span>
-            </button>
+            </motion.button>
           )}
-          <button
+          <motion.button
+            whileHover={{ scale: 1.02 }}
+            whileTap={{ scale: 0.98 }}
             onClick={onOpenVerify}
-            className="px-3.5 py-2.5 rounded-xl bg-slate-900 hover:bg-slate-800 border border-cyan-500/40 text-cyan-300 text-xs font-bold flex items-center space-x-1.5 transition-all duration-200 active:scale-95 shadow-sm"
+            className="px-3.5 py-2.5 rounded-xl bg-slate-900/90 hover:bg-slate-800 border border-cyan-500/40 text-cyan-300 text-xs font-bold flex items-center space-x-1.5 transition-all duration-200 active:scale-95 shadow-sm"
           >
             <ShieldCheck className="w-4 h-4 text-cyan-400" />
             <span>Verify Fingerprint</span>
-          </button>
+          </motion.button>
         </div>
       </div>
 
-      {/* Filter and Search Bar */}
-      <div className="cyber-card rounded-2xl p-4 shadow-sm flex flex-col md:flex-row gap-3 items-center justify-between">
+      {/* Filter and Search Bar Bento Card */}
+      <CyberBentoCard glow="cyan" className="p-4 flex flex-col md:flex-row gap-3 items-center justify-between">
         <form onSubmit={handleSearchSubmit} className="relative w-full md:w-96">
-          <Search className="w-4 h-4 text-slate-500 absolute left-3.5 top-3" />
+          <Search className="w-4 h-4 text-cyan-500 absolute left-3.5 top-3" />
           <input
             type="text"
             value={search}
             onChange={(e) => setSearch(e.target.value)}
             placeholder="Search by Document ID, Title, Hash..."
-            className="w-full bg-slate-900 border border-slate-700/80 rounded-xl pl-10 pr-3.5 py-2.5 text-xs text-white placeholder-slate-500 focus:border-cyan-400 focus:outline-none"
+            className="w-full bg-slate-900/90 border border-slate-700/80 rounded-xl pl-10 pr-3.5 py-2.5 text-xs text-white placeholder-slate-500 focus:border-cyan-400 focus:outline-none transition font-mono"
           />
         </form>
 
@@ -118,7 +130,7 @@ export default function Documents({ onOpenUpload, onOpenVerify }) {
           <select
             value={categoryFilter}
             onChange={(e) => setCategoryFilter(e.target.value)}
-            className="bg-slate-900 border border-slate-700/80 rounded-xl px-3.5 py-2.5 text-xs text-slate-300 focus:border-cyan-400 focus:outline-none font-medium"
+            className="bg-slate-900/90 border border-slate-700/80 rounded-xl px-3.5 py-2.5 text-xs text-slate-300 focus:border-cyan-400 focus:outline-none font-medium"
           >
             <option value="">All Categories</option>
             <option value="FIR">First Information Report (FIR)</option>
@@ -133,7 +145,7 @@ export default function Documents({ onOpenUpload, onOpenVerify }) {
           <select
             value={classificationFilter}
             onChange={(e) => setClassificationFilter(e.target.value)}
-            className="bg-slate-900 border border-slate-700/80 rounded-xl px-3.5 py-2.5 text-xs text-slate-300 focus:border-cyan-400 focus:outline-none font-medium"
+            className="bg-slate-900/90 border border-slate-700/80 rounded-xl px-3.5 py-2.5 text-xs text-slate-300 focus:border-cyan-400 focus:outline-none font-medium"
           >
             <option value="">All Classifications</option>
             <option value="PUBLIC">Public</option>
@@ -143,10 +155,10 @@ export default function Documents({ onOpenUpload, onOpenVerify }) {
             <option value="RESTRICTED">Restricted</option>
           </select>
         </div>
-      </div>
+      </CyberBentoCard>
 
-      {/* Documents Table */}
-      <div className="cyber-card rounded-2xl shadow-sm overflow-hidden">
+      {/* Documents Table Bento Card */}
+      <CyberBentoCard glow="cyan" className="p-0 overflow-hidden">
         {loading ? (
           <div className="py-24 text-center text-xs text-slate-400 flex flex-col items-center justify-center space-y-3">
             <Loader2 className="w-6 h-6 animate-spin text-cyan-400" />
@@ -269,7 +281,7 @@ export default function Documents({ onOpenUpload, onOpenVerify }) {
             </table>
           </div>
         )}
-      </div>
+      </CyberBentoCard>
     </div>
   );
 }

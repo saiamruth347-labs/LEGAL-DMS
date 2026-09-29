@@ -103,15 +103,15 @@ export default function Cases() {
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
           <div className="flex items-center space-x-2">
-            <span className="text-xs font-mono uppercase tracking-wider text-cyan-400 font-bold">
+            <span className="text-xs font-mono uppercase tracking-wider text-cyan-700 dark:text-cyan-400 font-bold">
               CRIMINAL DOSSIER REGISTRY
             </span>
-            <span className="text-[10px] bg-slate-800 text-slate-300 px-2 py-0.5 rounded-full font-mono border border-slate-700">
+            <span className="text-[10px] bg-slate-200 dark:bg-slate-800 text-slate-800 dark:text-slate-200 px-2 py-0.5 rounded-full font-mono border border-slate-300 dark:border-slate-700 font-semibold">
               TOTAL: {cases.length}
             </span>
           </div>
-          <h1 className="text-2xl font-extrabold text-white mt-1">Case Management Vault</h1>
-          <p className="text-xs text-slate-400">
+          <h1 className="text-2xl font-extrabold text-slate-900 dark:text-white mt-1">Case Management Vault</h1>
+          <p className="text-xs text-slate-600 dark:text-slate-300 font-medium">
             Secure multi-agency investigation files and evidentiary repositories
           </p>
         </div>
@@ -130,13 +130,13 @@ export default function Cases() {
       {/* Filter and Search Bar */}
       <div className="cyber-card rounded-2xl p-4 shadow-sm flex flex-col md:flex-row gap-3 items-center justify-between">
         <form onSubmit={handleSearchSubmit} className="relative w-full md:w-96">
-          <Search className="w-4 h-4 text-slate-500 absolute left-3.5 top-3" />
+          <Search className="w-4 h-4 text-slate-400 absolute left-3.5 top-3" />
           <input
             type="text"
             value={search}
             onChange={(e) => setSearch(e.target.value)}
             placeholder="Search by Case ID, title, FIR..."
-            className="w-full bg-slate-900 border border-slate-700/80 rounded-xl pl-10 pr-3.5 py-2.5 text-xs text-white placeholder-slate-500 focus:border-cyan-400 focus:outline-none"
+            className="w-full bg-slate-50 dark:bg-slate-900 border border-slate-300 dark:border-slate-700/80 rounded-xl pl-10 pr-3.5 py-2.5 text-xs text-slate-900 dark:text-white placeholder-slate-400 dark:placeholder-slate-500 focus:border-cyan-400 focus:outline-none"
           />
         </form>
 
@@ -144,7 +144,7 @@ export default function Cases() {
           <select
             value={statusFilter}
             onChange={(e) => setStatusFilter(e.target.value)}
-            className="bg-slate-900 border border-slate-700/80 rounded-xl px-3.5 py-2.5 text-xs text-slate-300 focus:border-cyan-400 focus:outline-none font-medium"
+            className="bg-slate-50 dark:bg-slate-900 border border-slate-300 dark:border-slate-700/80 rounded-xl px-3.5 py-2.5 text-xs text-slate-800 dark:text-slate-200 focus:border-cyan-400 focus:outline-none font-semibold"
           >
             <option value="">All Case Statuses</option>
             <option value="OPEN">Open</option>
@@ -157,7 +157,7 @@ export default function Cases() {
           <select
             value={priorityFilter}
             onChange={(e) => setPriorityFilter(e.target.value)}
-            className="bg-slate-900 border border-slate-700/80 rounded-xl px-3.5 py-2.5 text-xs text-slate-300 focus:border-cyan-400 focus:outline-none font-medium"
+            className="bg-slate-50 dark:bg-slate-900 border border-slate-300 dark:border-slate-700/80 rounded-xl px-3.5 py-2.5 text-xs text-slate-800 dark:text-slate-200 focus:border-cyan-400 focus:outline-none font-semibold"
           >
             <option value="">All Priorities</option>
             <option value="CRITICAL">Critical Priority</option>
@@ -170,14 +170,14 @@ export default function Cases() {
 
       {/* Cases Grid */}
       {loading ? (
-        <div className="py-24 text-center text-xs text-slate-400 flex flex-col items-center justify-center space-y-3">
-          <Loader2 className="w-6 h-6 animate-spin text-cyan-400" />
+        <div className="py-24 text-center text-xs text-slate-600 dark:text-slate-300 flex flex-col items-center justify-center space-y-3 font-medium">
+          <Loader2 className="w-6 h-6 animate-spin text-cyan-600 dark:text-cyan-400" />
           <span className="font-mono">Retrieving encrypted case dossiers...</span>
         </div>
       ) : cases.length === 0 ? (
-        <div className="cyber-card rounded-2xl p-16 text-center text-xs text-slate-400 space-y-3">
-          <FolderLock className="w-10 h-10 text-slate-600 mx-auto" />
-          <div className="font-bold text-white text-sm">No Case Records Found</div>
+        <div className="cyber-card rounded-2xl p-16 text-center text-xs text-slate-600 dark:text-slate-300 space-y-3 font-medium">
+          <FolderLock className="w-10 h-10 text-slate-400 mx-auto" />
+          <div className="font-bold text-slate-900 dark:text-white text-sm">No Case Records Found</div>
           <p>No dossiers match the selected query criteria.</p>
         </div>
       ) : (
@@ -189,16 +189,16 @@ export default function Cases() {
             >
               <div className="space-y-3">
                 <div className="flex items-center justify-between">
-                  <span className="font-mono text-xs font-bold text-cyan-400 bg-cyan-950/70 px-2.5 py-0.5 rounded-full border border-cyan-500/30">
+                  <span className="font-mono text-xs font-bold text-cyan-800 dark:text-cyan-300 bg-cyan-100 dark:bg-cyan-950/70 px-2.5 py-0.5 rounded-full border border-cyan-300 dark:border-cyan-500/30">
                     {c.id}
                   </span>
                   <span
                     className={`text-[10px] font-bold px-2.5 py-0.5 rounded-full ${
                       c.priority === 'CRITICAL'
-                        ? 'bg-rose-950/80 text-rose-300 border border-rose-500/40'
+                        ? 'bg-rose-100 text-rose-800 dark:bg-rose-950/80 dark:text-rose-300 border border-rose-300 dark:border-rose-500/40'
                         : c.priority === 'HIGH'
-                        ? 'bg-orange-950/80 text-orange-300 border border-orange-500/40'
-                        : 'bg-blue-950/80 text-blue-300 border border-blue-500/40'
+                        ? 'bg-orange-100 text-orange-800 dark:bg-orange-950/80 dark:text-orange-300 border border-orange-300 dark:border-orange-500/40'
+                        : 'bg-blue-100 text-blue-800 dark:bg-blue-950/80 dark:text-blue-300 border border-blue-300 dark:border-blue-500/40'
                     }`}
                   >
                     {c.priority}
@@ -206,39 +206,39 @@ export default function Cases() {
                 </div>
 
                 <div>
-                  <h3 className="text-base font-bold text-white group-hover:text-cyan-300 transition line-clamp-2">
+                  <h3 className="text-base font-bold text-slate-900 dark:text-white group-hover:text-cyan-700 dark:group-hover:text-cyan-300 transition line-clamp-2">
                     {c.title}
                   </h3>
-                  <p className="text-xs text-slate-400 mt-1.5 line-clamp-3 leading-relaxed">
+                  <p className="text-xs text-slate-600 dark:text-slate-300 mt-1.5 line-clamp-3 leading-relaxed font-normal">
                     {c.description}
                   </p>
                 </div>
               </div>
 
-              <div className="space-y-3 pt-3.5 border-t border-slate-800 text-xs">
-                <div className="flex justify-between items-center text-slate-400">
-                  <span>FIR Reference:</span>
-                  <span className="font-mono text-white text-[11px] font-semibold">{c.firNumber || 'N/A'}</span>
+              <div className="space-y-3 pt-3.5 border-t border-slate-200 dark:border-slate-800 text-xs">
+                <div className="flex justify-between items-center text-slate-600 dark:text-slate-300">
+                  <span className="font-medium">FIR Reference:</span>
+                  <span className="font-mono text-slate-900 dark:text-white text-[11px] font-bold">{c.firNumber || 'N/A'}</span>
                 </div>
-                <div className="flex justify-between items-center text-slate-400">
-                  <span>Assigned Officer:</span>
-                  <span className="text-slate-200 font-medium">{c.assignedOfficer?.fullName || 'Unassigned'}</span>
+                <div className="flex justify-between items-center text-slate-600 dark:text-slate-300">
+                  <span className="font-medium">Assigned Officer:</span>
+                  <span className="text-slate-900 dark:text-slate-100 font-semibold">{c.assignedOfficer?.fullName || 'Unassigned'}</span>
                 </div>
-                <div className="flex justify-between items-center text-slate-400">
-                  <span>Documents In Vault:</span>
-                  <span className="font-mono text-cyan-400 font-bold">{c._count?.documents || 0}</span>
+                <div className="flex justify-between items-center text-slate-600 dark:text-slate-300">
+                  <span className="font-medium">Documents In Vault:</span>
+                  <span className="font-mono text-cyan-700 dark:text-cyan-400 font-bold">{c._count?.documents || 0}</span>
                 </div>
 
                 <div className="flex items-center justify-between pt-2">
                   <span
                     className={`text-[10px] font-bold px-2.5 py-0.5 rounded-full ${
                       c.status === 'UNDER_INVESTIGATION'
-                        ? 'bg-amber-950/80 text-amber-300 border border-amber-500/30'
+                        ? 'bg-amber-100 text-amber-800 dark:bg-amber-950/80 dark:text-amber-300 border border-amber-300 dark:border-amber-500/30'
                         : c.status === 'LEGAL_REVIEW'
-                        ? 'bg-purple-950/80 text-purple-300 border border-purple-500/30'
+                        ? 'bg-purple-100 text-purple-800 dark:bg-purple-950/80 dark:text-purple-300 border border-purple-300 dark:border-purple-500/30'
                         : c.status === 'COURT_SUBMITTED'
-                        ? 'bg-blue-950/80 text-blue-300 border border-blue-500/30'
-                        : 'bg-emerald-950/80 text-emerald-300 border border-emerald-500/30'
+                        ? 'bg-blue-100 text-blue-800 dark:bg-blue-950/80 dark:text-blue-300 border border-blue-300 dark:border-blue-500/30'
+                        : 'bg-emerald-100 text-emerald-800 dark:bg-emerald-950/80 dark:text-emerald-300 border border-emerald-300 dark:border-emerald-500/30'
                     }`}
                   >
                     ● {c.status.replace(/_/g, ' ')}
@@ -246,7 +246,7 @@ export default function Cases() {
 
                   <Link
                     to={`/cases/${c.id}`}
-                    className="p-1.5 px-3.5 rounded-xl bg-slate-800 hover:bg-cyan-950 hover:text-cyan-300 text-slate-200 flex items-center space-x-1.5 text-xs font-bold transition border border-slate-700/60 hover:border-cyan-500/40"
+                    className="p-1.5 px-3.5 rounded-xl bg-slate-100 hover:bg-cyan-100 hover:text-cyan-800 text-slate-800 border border-slate-300 dark:bg-slate-800 dark:hover:bg-cyan-950 dark:hover:text-cyan-300 dark:text-slate-200 dark:border-slate-700/60 flex items-center space-x-1.5 text-xs font-bold transition"
                   >
                     <span>Open Dossier</span>
                     <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-0.5 transition-transform" />

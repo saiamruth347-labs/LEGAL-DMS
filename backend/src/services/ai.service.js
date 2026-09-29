@@ -67,7 +67,7 @@ class AIService {
     const peopleMatches = textStr.match(/(?:Mr\.|Mrs\.|Ms\.|Dr\.|Officer|Inspector|Witness|Accused|Victim)\s+([A-Z][a-z]+(?:\s+[A-Z][a-z]+)?)/g) || [];
     const uniquePeople = [...new Set(peopleMatches.map((p) => p.trim()))];
     if (uniquePeople.length === 0) {
-      uniquePeople.push('Complainant Rekha Sharma', 'Inspector Vikram Rathore', 'Suspect Aman Verma');
+      uniquePeople.push('Complainant Rekha Sharma', 'Inspector Vikramaditya Chauhan', 'Suspect Aman Verma');
     }
 
     // Match locations

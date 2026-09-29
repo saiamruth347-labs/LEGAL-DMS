@@ -27,7 +27,7 @@ export default function AIIntelligence() {
 
   // Summarizer State
   const [sampleText, setSampleText] = useState(
-    `COMPLAINANT STATEMENT: Ms. Priya Sen, residing at Sector 14 Dwarka New Delhi, states that administrators of the instant-loan app RupeeInstant247 demanded INR 3,50,000 using morphed media transmitted to her family. Offenses involve Section 74 and Section 318(4) Bharatiya Nyaya Sanhita (BNS) along with Section 66D IT Act. Lead investigator Insp. Vikram Rathore seized device containing spyware APK communicating with overseas IP addresses.`
+    `COMPLAINANT STATEMENT: Ms. Priya Sen, residing at Sector 14 Dwarka New Delhi, states that administrators of the instant-loan app RupeeInstant247 demanded INR 3,50,000 using morphed media transmitted to her family. Offenses involve Section 74 and Section 318(4) Bharatiya Nyaya Sanhita (BNS) along with Section 66D IT Act. Lead investigator Insp. Vikramaditya Chauhan seized device containing spyware APK communicating with overseas IP addresses.`
   );
   const [summarizing, setSummarizing] = useState(false);
   const [summaryResult, setSummaryResult] = useState(null);

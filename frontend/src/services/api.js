@@ -102,8 +102,13 @@ function handleMockFallback(endpoint, options = {}) {
   }
 
   if (endpoint.startsWith('/auth/me')) {
-    const saved = localStorage.getItem('ncrb_user');
-    const user = saved ? JSON.parse(saved) : mockUsers[1];
+    let user = mockUsers[1];
+    try {
+      const saved = localStorage.getItem('ncrb_user');
+      if (saved && saved !== 'undefined' && saved !== 'null') {
+        user = JSON.parse(saved);
+      }
+    } catch (_) {}
     return { success: true, user };
   }
 
@@ -130,7 +135,7 @@ function handleMockFallback(endpoint, options = {}) {
         createdAt: new Date().toISOString(),
         documentsCount: 0,
         department: { name: 'Women Safety Division', code: 'NCRB-WSD' },
-        assignedOfficer: { fullName: 'Insp. Vikram Rathore', badgeNumber: 'NCRB-INV-104' },
+        assignedOfficer: { fullName: 'Insp. Vikramaditya Chauhan', badgeNumber: 'NCRB-INV-104' },
       };
       mockCases.unshift(newCase);
       return { success: true, case: newCase, message: 'Case dossier registered successfully' };

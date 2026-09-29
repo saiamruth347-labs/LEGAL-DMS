@@ -9,7 +9,7 @@ export default function NotificationModal({ isOpen, onClose }) {
     {
       id: '1',
       title: 'Access Authorization Request Pending',
-      message: 'Adv. Meera Sen submitted clearance request for RESTRICTED wiretap brief.',
+      message: 'Adv. Meenakshi Sundaram submitted clearance request for RESTRICTED wiretap brief.',
       time: '12 mins ago',
       type: 'ACCESS',
       link: '/access-requests',
@@ -25,7 +25,7 @@ export default function NotificationModal({ isOpen, onClose }) {
     {
       id: '3',
       title: 'Threat Shield Advisory',
-      message: 'Auditor R. K. Iyer clearance check flagged on Case #CASE-2026-001.',
+      message: 'Shri R. K. Swaminathan (Auditor) clearance check flagged on Case #CASE-2026-001.',
       time: '3 hours ago',
       type: 'SECURITY',
       link: '/security',
